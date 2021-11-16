@@ -15,10 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
+import lombok.*;
 import lombok.experimental.Tolerate;
 
 @Builder
@@ -26,6 +23,7 @@ import lombok.experimental.Tolerate;
 @Data
 @EqualsAndHashCode(callSuper=true)
 @PrimaryKeyJoinColumn(name = "stu_id")
+@AllArgsConstructor
 @Table(name="student")
 public class Student extends CUser{
 	

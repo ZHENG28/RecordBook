@@ -11,10 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
+import lombok.*;
 import lombok.experimental.Tolerate;
 
 @Entity
@@ -22,6 +19,7 @@ import lombok.experimental.Tolerate;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @PrimaryKeyJoinColumn(name = "teacher_id")
+@AllArgsConstructor
 @Table(name="teacher")
 public class Teacher extends CUser{
 	
