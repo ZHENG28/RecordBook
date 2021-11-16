@@ -12,8 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"
         crossorigin="anonymous"></script>
 </head>
-
-<body>
+<body style="width: 100%;">
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid">
@@ -108,20 +107,22 @@
             let PET4 = 10;
             let PET6 = 20;
 
-            // chart.showLoading();
-            // $.ajax({
-            //     url: "",
-            //     data: JSON.stringify({}),
-            //     type: "POST",
-            //     success: function (response) {
-            //         PET4 = response.PET4
-            //         PET6 = response.PET6
-            //         chart.hideLoading();
-            //     },
-            //     error: function (response) {
-            //         chart.hideLoading();
-            //     },
-            // })
+            /*chart.showLoading();
+            //获取年级
+            $.ajax({
+                url: "",
+                type: "POST",
+                success: function (response) {
+                    $.each(response.data,function (age){
+                        $('#dropdown-menu').append("<a class='dropdown-item' href='#'>"+age+"</a>")
+                    })
+                    // chart.hideLoading();
+                },
+                error: function (response) {
+                    // chart.hideLoading();
+                },
+            })*/
+
             chart.setOption({
                 title: {
                     text: title
