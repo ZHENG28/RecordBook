@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.records.demo.DemoApplication.entity.CClass;
 
+import java.util.List;
+
 public interface CClassRepository extends JpaRepository<CClass,Long>{
-	
+//	List<CClass> findByClass_nameLike(String grade);
 }

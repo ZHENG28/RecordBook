@@ -8,7 +8,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Charts - SB Admin</title>
-    <link href="teacher/css/styles.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"
         crossorigin="anonymous"></script>
 </head>
@@ -193,12 +193,12 @@
             </footer>
         </div>
     </div>
-    <script src="teacher/assets/plugin/js/jquery-3.6.0.js"></script>
-    <script src="teacher/assets/plugin/js/echarts.5.2.1.js"></script>
+    <script src="assets/plugin/js/jquery-3.6.0.js"></script>
+    <script src="assets/plugin/js/echarts.5.2.1.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-    <script src="teacher/js/scripts.js"></script>
+    <script src="js/scripts.js"></script>
     <script type="text/javascript">
-        let title = "四六级通过人数"
+        let title = "四六级通过人数";
 
         $(function () {
             var chart = echarts.init(document.getElementById('PieChart'));
@@ -245,10 +245,10 @@
             })
 
             $('#queryCET').click(function () {
-                alert("发送ajax了")
+                alert("发送ajax了");
                 chart.showLoading();
-                let classname = this.name
-                console.log(this.name)
+                let classname = this.name;
+                console.log(this.name);
                 $.ajax({
                     url: "/queryCet",
                     /* data: JSON.stringify({ "classname": classname }), */
@@ -257,7 +257,6 @@
                         CET4 = response.CET4;
                         CET6 = response.CET6;
                         chart.hideLoading();
-
                     },
                     error: function (response) {
                         chart.hideLoading();
