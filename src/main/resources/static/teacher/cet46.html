@@ -8,7 +8,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Charts - SB Admin</title>
-    <link href="css/styles.css" rel="stylesheet" />
+    <link href="teacher/css/styles.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"
         crossorigin="anonymous"></script>
 </head>
@@ -193,18 +193,18 @@
             </footer>
         </div>
     </div>
-    <script src="assets/plugin/js/jquery-3.6.0.js"></script>
-    <script src="assets/plugin/js/echarts.5.2.1.js"></script>
+    <script src="teacher/assets/plugin/js/jquery-3.6.0.js"></script>
+    <script src="teacher/assets/plugin/js/echarts.5.2.1.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-    <script src="js/scripts.js"></script>
+    <script src="teacher/js/scripts.js"></script>
     <script type="text/javascript">
         let title = "四六级通过人数"
 
         $(function () {
             var chart = echarts.init(document.getElementById('PieChart'));
 
-            let PET4 = 10;
-            let PET6 = 20;
+            let CET4 = 20;
+            let CET6 = 15;
 
             // chart.showLoading();
             // $.ajax({
@@ -212,8 +212,8 @@
             //     data: JSON.stringify({}),
             //     type: "POST",
             //     success: function (response) {
-            //         PET4 = response.PET4
-            //         PET6 = response.PET6
+            //         CET4 = response.CET4
+            //         CET6 = response.CET6
             //         chart.hideLoading();
             //     },
             //     error: function (response) {
@@ -230,8 +230,8 @@
                         type: 'pie',    // 设置图表类型为饼图
                         radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
                         data: [          // 数据数组，name 为数据项名称，value 为数据项值
-                            { value: PET4, name: "PET4" },
-                            { value: PET6, name: "PET6" },
+                            { value: CET4, name: "CET4" },
+                            { value: CET6, name: "CET6" },
                             // classData.data
                         ],
                         itemStyle: {
@@ -250,27 +250,28 @@
                 let classname = this.name
                 console.log(this.name)
                 $.ajax({
-                    url: "",
-                    data: JSON.stringify({ "classname": classname }),
-                    type: "POST",
+                    url: "/queryCet",
+                    /* data: JSON.stringify({ "classname": classname }), */
+                    type: "GET",
                     success: function (response) {
-                        PET4 = response.PET4
-                        PET6 = response.PET6
+                        CET4 = response.CET4;
+                        CET6 = response.CET6;
                         chart.hideLoading();
+
                     },
                     error: function (response) {
                         chart.hideLoading();
                     },
-                })
+                });
                 chart.setOption({
                     series: [{
                         data: [
-                            { value: PET4, name: "PET4" },
-                            { value: PET6, name: "PET6" }
+                            { value: CET4, name: "CET4" },
+                            { value: CET6, name: "CET6" }
                         ]
                     }]
-                })
-            })
+                });
+            });
 
             $('.dropdown-item').click(function () {
                 $.ajax({

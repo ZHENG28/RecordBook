@@ -1,21 +1,26 @@
 package com.example.records.demo.DemoApplication.controller;
 
-import java.util.List;
-
+import com.example.records.demo.DemoApplication.entity.CClass;
+import com.example.records.demo.DemoApplication.repository.CClassRepository;
+import com.example.records.demo.DemoApplication.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.records.demo.DemoApplication.entity.CClass;
-import com.example.records.demo.DemoApplication.repository.CClassRepository;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class TeacherController {
 	@Autowired
 	CClassRepository classRepo;
 	
+	@Autowired
+	StudentService studentService;
+
 	//dark
 	//teacher主页
 	@GetMapping("/teacherIndex_dark")
@@ -45,5 +50,16 @@ public class TeacherController {
 		model.addAttribute("totalclass", totalclass);
 		return "/teacher/totalClass";
 		
+	}
+
+	@GetMapping("/queryCet")
+	@ResponseBody
+	public Object queryCet() {
+		Map<Integer, Integer> cetList = studentService.getCet();
+		Map<String, Integer> cetList2 = new HashMap<>();
+		cetList2.put("CET4", cetList.get(4));
+		cetList2.put("CET6", cetList.get(6));
+
+		return cetList2;
 	}
 }
