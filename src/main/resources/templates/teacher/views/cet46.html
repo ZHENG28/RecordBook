@@ -2,202 +2,218 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Charts - SB Admin</title>
-    <link href="css/styles.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"
-        crossorigin="anonymous"></script>
+<!--    <meta charset="utf-8" />-->
+<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge" />-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />-->
+<!--    <meta name="description" content="" />-->
+<!--    <meta name="author" content="" />-->
+<!--    <link href="css/styles.css" rel="stylesheet" />-->
+    <script type="text/javascript" src="/plugin/bootstrap-4.6.0-dist/js/bootstrap.js"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>-->
 </head>
 <body style="width: 100%;">
-        <div id="layoutSidenav_content">
-            <main>
-                <div class="container-fluid">
-                    <h1 class="mt-4">46级查询系统</h1>
-                    <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item"><a href="index.html">Tools</a></li>
-                        <li class="breadcrumb-item active">46级查询系统</li>
-                    </ol>
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <div class="row">
-                                <!-- <div class="col-lg-4"> -->
-                                <div class="dropdown col-lg-3">
-                                    <button class="btn btn-secondary dropdown-toggle col-10" type="button"
-                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        选择年级
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">2019</a>
-                                        <a class="dropdown-item" href="#">2020</a>
-                                        <a class="dropdown-item" href="#">2021</a>
-                                    </div>
-                                </div>
-                                <!-- </div> -->
-                                <!-- <div class="col-lg-3"> -->
-                                <select id="classname" class="form-select col-lg-2 offset-1" disabled
-                                    aria-label="Default select example">
-                                    <option selected>请选择班级</option>
-                                    <option value="计师19">计师19</option>
-                                    <option value="教技19">教技19</option>
-                                    <option value="机师19">机师19</option>
-                                </select>
-                                <!-- </div> -->
-                                <!-- <div class="col-lg-3"> -->
-                                <select class="form-select col-lg-2 offset-1" disabled
-                                    aria-label="Default select example">
-                                    <option selected>查询分类</option>
-                                    <option value="cet4">CET 4</option>
-                                    <option value="cet6">CET 6</option>
-                                    <option value="all">全部</option>
-                                </select>
-                                <!-- </div> -->
-                                <!-- <div class="col-lg-2"> -->
-                                <button id="queryCET" class="btn btn-info col-lg-2 offset-1">查询</button>
-                                <!-- </div> -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card mb-4">
-                        <div class="col-lg-12">
-                            <div class="card-header"><i class="fas fa-chart-pie mr-1"></i>大学英语等级考试饼图</div>
-                            <div class="card-body">
-                                <div id="PieChart" style="width: 100%;height:400px;"></div>
-                            </div>
-                            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card mb-4">
-                            </div>
-                        </div>
+<div class="container-fluid">
+    <h1 class="mt-4">46级查询系统</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="index.html">Tools</a></li>
+        <li class="breadcrumb-item active">46级查询系统</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="dropdown col-3">
+                    <button class="btn btn-secondary dropdown-toggle col-10" type="button"
+                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                        选择年级
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">2019</a>
+                        <a class="dropdown-item" href="#">2020</a>
+                        <a class="dropdown-item" href="#">2021</a>
                     </div>
                 </div>
-            </main>
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2019</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                            &middot;
-                            <a href="#">Terms &amp; Conditions</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+                <select id="classname" class="form-select col-2 offset-1" disabled
+                        aria-label="Default select example">
+                    <option selected>请选择班级</option>
+                    <option value="计师19">计师19</option>
+                    <option value="教技19">教技19</option>
+                    <option value="机师19">机师19</option>
+                </select>
+                <select id="querytype" class="form-select col-2 offset-1" disabled
+                        aria-label="Default select example">
+                    <option selected>查询分类</option>
+                    <option value="cet4">CET 4</option>
+                    <option value="cet6">CET 6</option>
+                    <option value="all">全部</option>
+                </select>
+                <button id="queryCET" class="btn btn-info col-2 offset-1">查询</button>
+            </div>
         </div>
     </div>
-    <script type=“text/javascript” src="/plugin/js/jquery-3.6.0.js"></script>
+    <div class="card mb-4">
+        <div class="col-lg-12">
+            <div class="card-header"><i class="fas fa-chart-pie mr-1"></i>大学英语等级考试饼图</div>
+            <div class="card-body">
+                <div id="PieChart" style="width: 100%;height:400px;"></div>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card mb-4">
+            </div>
+        </div>
+    </div>
+    <footer class="py-4 bg-light mt-auto">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center justify-content-between small">
+                <div class="text-muted">Copyright &copy; Your Website 2019</div>
+                <div>
+                    <a href="#">Privacy Policy</a>
+                    &middot;
+                    <a href="#">Terms &amp; Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+</div>
+<script type=“text/javascript” src="/plugin/js/jquery-3.6.0.js"></script>
+<script type=“text/javascript” src="/plugin/js/echarts.5.2.1.js"></script>
+<script type=“text/javascript” src="/plugin/bootstrap-4.6.0-dist/js/bootstrap.bundle.js"></script>
+<script type=“text/javascript” src="/teacher/js/scripts.js"></script>
+<script type="text/javascript">
+    let title = "四六级通过人数"
 
-    <script type=“text/javascript” src="/plugin/js/echarts.5.2.1.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-    <script type=“text/javascript” src="js/scripts.js"></script>
-    <script type="text/javascript">
-        let title = "四六级通过人数"
+    $(function () {
+        var chart = echarts.init(document.getElementById('PieChart'));
 
-        $(function () {
-            var chart = echarts.init(document.getElementById('PieChart'));
+        let CET4 = 30;
+        let CET6 = 20;
 
-            let PET4 = 10;
-            let PET6 = 20;
+        /*chart.showLoading();
+        //获取年级
+        $.ajax({
+            url: "",
+            type: "POST",
+            success: function (response) {
+                $.each(response.data,function (age){
+                    $('#dropdown-menu').append("<a class='dropdown-item' href='#'>"+age+"</a>")
+                })
+                // chart.hideLoading();
+            },
+            error: function (response) {
+                // chart.hideLoading();
+            },
+        })*/
 
-            /*chart.showLoading();
-            //获取年级
+        chart.setOption({
+            title: {
+                text: title
+            },
+            series: [
+                {
+                    name: title,
+                    type: 'pie',    // 设置图表类型为饼图
+                    radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+                    data: [          // 数据数组，name 为数据项名称，value 为数据项值
+                        { value: CET4, name: "CET4" },
+                        { value: 6, name: "四级未通过人数" },
+                        // classData.data
+                    ],
+                    itemStyle: {
+                        normal: {
+                            shadowBlur: 500,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        })
+
+        $('#queryCET').click(function () {
+            chart.showLoading();
+            let classname = $('#classname').val()
+            let querytype = $('#querytype').val()
+            console.log(classname, querytype)
+            alert("发送ajax了")
             $.ajax({
                 url: "",
+                data: JSON.stringify({ "classname": classname}),
                 type: "POST",
                 success: function (response) {
-                    $.each(response.data,function (age){
-                        $('#dropdown-menu').append("<a class='dropdown-item' href='#'>"+age+"</a>")
+                    let chartdata
+                    let charttitle
+                    CET4 = response.data.CET4
+                    CET6 = response.data.CET6
+                    total = response.data.total
+                    chart.hideLoading();
+                    if (querytype == "cet4") {
+                        charttitle = "四级表格,总人数:" + total
+                        chartdata = [
+                            { value: CET4, name: "CET4" },
+                            { value: total - CET4, name: "未通过4级人数" }
+                        ]
+                    }
+                    else if (querytype == "cet6") {
+                        chartdata = "六级表格,总人数:" + total
+                        chartdata = [
+                            { value: CET6, name: "CET6" },
+                            { value: total - CET6, name: "未通过6级人数" }
+                        ]
+                    }
+                    else {
+                        charttitle = "总览,总人数:" + total
+                        chartdata = [
+                            { value: CET4, name: "CET4" },
+                            { value: CET6, name: "CET6" },
+                            { value: total, name: "总人数" }
+                        ]
+                    }
+                    chart.setOption({
+                        title: {
+                            text: charttitle
+                        },
+                        series: [{
+                            data: chartdata
+                        }]
                     })
-                    // chart.hideLoading();
                 },
                 error: function (response) {
-                    // chart.hideLoading();
+                    alert("error!")
+                    chart.hideLoading();
                 },
-            })*/
-
-            chart.setOption({
-                title: {
-                    text: title
-                },
-                series: [
-                    {
-                        name: title,
-                        type: 'pie',    // 设置图表类型为饼图
-                        radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
-                        data: [          // 数据数组，name 为数据项名称，value 为数据项值
-                            { value: PET4, name: "PET4" },
-                            { value: PET6, name: "PET6" },
-                            // classData.data
-                        ],
-                        itemStyle: {
-                            normal: {
-                                shadowBlur: 500,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        }
-                    }
-                ]
             })
 
-            $('#queryCET').click(function () {
-                alert("发送ajax了")
-                chart.showLoading();
-                let classname = this.name
-                console.log(this.name)
-                $.ajax({
-                    url: "",
-                    data: JSON.stringify({ "classname": classname }),
-                    type: "POST",
-                    success: function (response) {
-                        PET4 = response.PET4
-                        PET6 = response.PET6
-                        chart.hideLoading();
-                    },
-                    error: function (response) {
-                        chart.hideLoading();
-                    },
-                })
-                chart.setOption({
-                    series: [{
-                        data: [
-                            { value: PET4, name: "PET4" },
-                            { value: PET6, name: "PET6" }
-                        ]
-                    }]
-                })
-            })
+        })
 
-            $('.dropdown-item').click(function () {
-                $.ajax({
-                    url: '',
-                    data: JSON.stringify({
-                        'age': $(this).text()
-                    }),
-                    type: 'POST',
-                    success: function (response) {
-                        $('#classname').html("<option selected>请选择班级</option>")
-                        for (classname in response.data) {
-                            $('#classname').append(
-                                '<option value="' + classname + '">' + classname + '</option>'
-                            )
-                        }
-                        $('select').attr('disabled', false)
-                    },
-                    error: function () {
-                        console.log('error!')
+        $('.dropdown-item').click(function () {
+            console.log('12312312312')
+            $.ajax({
+                url: '',
+                data: JSON.stringify({
+                    'age': $(this).text()
+                }),
+                type: 'POST',
+                success: function (response) {
+                    $('#classname').html("<option selected>请选择班级</option>")
+                    for (classname in response.data) {
+                        $('#classname').append(
+                            '<option value="' + classname + '">' + classname + '</option>'
+                        )
                     }
-                })
+                    $('select').attr('disabled', false)
+                },
+                error: function () {
+                    console.log('error!')
+                    $('select').attr('disabled', false)
+                }
             })
         })
-    </script>
+    })
+</script>
 </body>
 
 </html>
