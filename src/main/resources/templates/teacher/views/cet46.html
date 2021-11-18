@@ -8,8 +8,12 @@
 <!--    <meta name="description" content="" />-->
 <!--    <meta name="author" content="" />-->
 <!--    <link href="css/styles.css" rel="stylesheet" />-->
-    <script type="text/javascript" src="/plugin/bootstrap-4.6.0-dist/js/bootstrap.js"></script>
 <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>-->
+    <script type=“text/javascript” src="/plugin/js/jquery-3.6.0.js"></script>
+    <script type=“text/javascript” src="/plugin/js/echarts.5.2.1.js"></script>
+    <script type=“text/javascript” src="/plugin/bootstrap-4.6.0-dist/js/bootstrap.bundle.js"></script>
+    <script type=“text/javascript” src="/teacher/js/scripts.js"></script>
+
 </head>
 <body style="width: 100%;">
 <div class="container-fluid">
@@ -80,10 +84,6 @@
     </footer>
 </div>
 </div>
-<script type=“text/javascript” src="/plugin/js/jquery-3.6.0.js"></script>
-<script type=“text/javascript” src="/plugin/js/echarts.5.2.1.js"></script>
-<script type=“text/javascript” src="/plugin/bootstrap-4.6.0-dist/js/bootstrap.bundle.js"></script>
-<script type=“text/javascript” src="/teacher/js/scripts.js"></script>
 <script type="text/javascript">
     let title = "四六级通过人数"
 
@@ -93,21 +93,23 @@
         let CET4 = 30;
         let CET6 = 20;
 
-        /*chart.showLoading();
+        // chart.showLoading();
         //获取年级
         $.ajax({
             url: "",
             type: "POST",
             success: function (response) {
+                console.log(response)
                 $.each(response.data,function (age){
                     $('#dropdown-menu').append("<a class='dropdown-item' href='#'>"+age+"</a>")
                 })
                 // chart.hideLoading();
             },
             error: function (response) {
+                console.log("加载年级失败")
                 // chart.hideLoading();
             },
-        })*/
+        })
 
         chart.setOption({
             title: {
@@ -140,9 +142,9 @@
             console.log(classname, querytype)
             alert("发送ajax了")
             $.ajax({
-                url: "",
+                url: "/queryCet",
                 data: JSON.stringify({ "classname": classname}),
-                type: "POST",
+                type: "GET",
                 success: function (response) {
                     let chartdata
                     let charttitle
@@ -182,7 +184,7 @@
                     })
                 },
                 error: function (response) {
-                    alert("error!")
+                    console.log("加载CET error!")
                     chart.hideLoading();
                 },
             })
@@ -207,7 +209,7 @@
                     $('select').attr('disabled', false)
                 },
                 error: function () {
-                    console.log('error!')
+                    console.log('班级加载失败!')
                     $('select').attr('disabled', false)
                 }
             })

@@ -52,6 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		http.logout().permitAll();
 		//关闭csrf防护
 		http.csrf().disable();
+		//允许SpringSecurity 加载同源的 iframe
+		http.headers().frameOptions().sameOrigin();
 	}
 	
 	@Bean

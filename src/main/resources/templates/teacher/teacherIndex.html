@@ -8,12 +8,10 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>成长记录册——教师端</title>
-    <link href="/css/styles.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"
-          crossorigin="anonymous" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/plugin/datatables/css/dataTables.bootstrap4.min.css"/>
     <script type="text/javascript" src="/plugin/js/jquery-3.6.0.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"
-            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/plugin/js/fontawesome.min.js"></script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -62,8 +60,7 @@
                     </a>
                     <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
                          data-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav"><a class="nav-link"
-                                                                   href="teacher/layout-static.html">暗背景</a><a class="nav-link" href="/toLight">亮背景</a>
+                        <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="teacher/layout-static.html">暗背景</a><a class="nav-link" href="/toLight">亮背景</a>
                         </nav>
                     </div>
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
@@ -82,10 +79,10 @@
                             </a>
                             <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
                                  data-parent="#sidenavAccordionPages">
-                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link"
-                                                                           href="login.html">Login</a><a class="nav-link"
-                                                                                                         href="register.html">Register</a><a class="nav-link"
-                                                                                                                                             href="password.html">Forgot Password</a></nav>
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="login.html">Login</a>
+                                    <a class="nav-link" href="register.html">Register</a>
+                                    <a class="nav-link" href="password.html">Forgot Password</a></nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse"
                                data-target="#pagesCollapseError" aria-expanded="false"
@@ -106,15 +103,15 @@
                         </nav>
                     </div>
                     <div class="sb-sidenav-menu-heading">信息查询</div>
-                    <a class="nav-link myLeftMenu" href="javascript:void(0)" data="teacher/cet46">
+                    <a class="nav-link view-jump" href="/teacher/cet46" data="teacher/cet46">
                         <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                         四六级情况
                     </a>
-                    <a class="nav-link" href="javascript:void(0)" data="teacher/lixiang">
+                    <a class="nav-link view-jump" href="teacher/lixiang" data="teacher/lixiang">
                         <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                         立项情况
                     </a>
-                    <a class="nav-link" href="/queryTotalClass">
+                    <a class="nav-link view-jump" href="/queryTotalClass">
                         <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                         班级查询
                     </a>
@@ -689,22 +686,22 @@
     </div>
 </div>
 
-<script type=“text/javascript” src="/plugin/js/jquery-3.6.0.js"></script>
 <script type=“text/javascript” src="/plugin/bootstrap-4.6.0-dist/js/bootstrap.bundle.js"></script>
 <script type="text/javascript" src="/plugin/js/Admin Bootstrap.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/plugin/js/Chart.min.js"></script>
 <script type="text/javascript" src="teacher/assets/demo/chart-area-demo.js"></script>
 <script type="text/javascript" src="teacher/assets/demo/chart-bar-demo.js"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/plugin/datatables/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/plugin/datatables/js/dataTables.bootstrap4.min.js"></script>
 <script type="text/javascript" src="teacher/assets/demo/datatables-demo.js"></script>
 
 <script>
     $(function () {
-        $('.myLeftMenu').click(function (e) {
-            var url = $(this).attr('data');
-            $('#container').load(url)
+        $('.view-jump').click(function (e) {
+            e.preventDefault();
+            // var url = $(this).attr('data');
+            $('#container').load($(this).attr('href'))
         });
     })
 </script>

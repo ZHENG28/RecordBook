@@ -12,4 +12,9 @@ public class TeacherViewController {
     public String cet(){
         return "teacher/views/cet46";
     }
+
+    @GetMapping("/index")
+    public String index(){
+        return "teacher/view/index";
+    }
 }
