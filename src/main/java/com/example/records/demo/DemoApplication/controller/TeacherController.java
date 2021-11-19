@@ -1,17 +1,17 @@
 package com.example.records.demo.DemoApplication.controller;
 
 import com.example.records.demo.DemoApplication.entity.CClass;
+import com.example.records.demo.DemoApplication.entity.Student;
 import com.example.records.demo.DemoApplication.repository.CClassRepository;
 import com.example.records.demo.DemoApplication.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class TeacherController {
@@ -43,13 +43,21 @@ public class TeacherController {
 	
 	
 	//查询功能
-	//查看班级名单
+	//查看所有班级
 	@GetMapping("/queryTotalClass")
 	public String queryTotalClass(Model model) {
 		List<CClass> totalclass = classRepo.findAll();
 		model.addAttribute("totalclass", totalclass);
-		return "/teacher/totalClass";
-		
+		return "teacher/totalClass";
+	}
+	//查看班级学生
+	@GetMapping("/queryClass")
+	public String queryClass(Model model, @RequestParam(name ="classId") Long classId){
+		Optional<CClass> cClass = classRepo.findById(classId);
+		Set<Student> students = cClass.get().getStudents();
+		model.addAttribute("class",cClass.get());
+		model.addAttribute("students",students);
+		return "teacher/classStudent";
 	}
 
 	@GetMapping("/queryCet")

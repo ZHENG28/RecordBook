@@ -15,6 +15,6 @@ public class TeacherViewController {
 
     @GetMapping("/index")
     public String index(){
-        return "teacher/view/index";
+        return "teacher/views/index";
     }
 }
