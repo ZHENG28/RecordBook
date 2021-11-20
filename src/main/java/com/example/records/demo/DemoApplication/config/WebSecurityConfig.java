@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			.logoutSuccessUrl("/login.html");
 		http.authorizeRequests()
 			.antMatchers("/assets/**","/css/**","/js/**","/images/**","/plugin/**").permitAll()
-			.antMatchers("/teacher/**","/student/**").permitAll()
+			.antMatchers("/teacher/**","/student/**","/admin/**").permitAll()
 			.antMatchers("/login.html").permitAll()
 			.antMatchers("/regist").permitAll()
 			.antMatchers("/").permitAll()
