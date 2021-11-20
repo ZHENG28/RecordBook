@@ -10,7 +10,7 @@ public class AdminViewController {
 
     String v = "admin/views/";
 
-    @GetMapping("/")
+    @GetMapping({"/","","/index"})
     public String defaultview(){
         return "admin/adminindex";
     }
