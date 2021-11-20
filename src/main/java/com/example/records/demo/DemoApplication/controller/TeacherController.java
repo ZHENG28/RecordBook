@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -69,5 +70,21 @@ public class TeacherController {
 		cetList2.put("CET6", cetList.get(6));
 
 		return cetList2;
+	}
+
+	@PostMapping("/getAllGrades")
+	@ResponseBody
+	public Map<String ,List> getAllGrades(){
+		Map<String,List> grades = new HashMap<>();
+
+//		总之返回一个list
+		ArrayList<String> list = new ArrayList<>();
+//		这里先假装查询到了年级
+		list.add("2018");
+		list.add("2019");
+		list.add("2020");
+		list.add("2021");
+		grades.put("data",list);
+		return grades;
 	}
 }

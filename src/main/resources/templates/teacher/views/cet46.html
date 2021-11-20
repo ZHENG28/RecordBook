@@ -96,12 +96,12 @@
         // chart.showLoading();
         //获取年级
         $.ajax({
-            url: "",
+            url: "/getAllGrades",
             type: "POST",
             success: function (response) {
-                console.log(response)
-                $.each(response.data,function (age){
-                    $('#dropdown-menu').append("<a class='dropdown-item' href='#'>"+age+"</a>")
+                $('.dropdown-menu').html('');
+                response.data.forEach(function (age) {
+                    $('.dropdown-menu').append("<a class='dropdown-item' href='#'>"+age+"</a>")
                 })
                 // chart.hideLoading();
             },
