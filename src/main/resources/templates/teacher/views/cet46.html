@@ -9,10 +9,6 @@
 <!--    <meta name="author" content="" />-->
 <!--    <link href="css/styles.css" rel="stylesheet" />-->
 <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>-->
-    <script type=“text/javascript” src="/plugin/js/jquery-3.6.0.js"></script>
-    <script type=“text/javascript” src="/plugin/js/echarts.5.2.1.js"></script>
-    <script type=“text/javascript” src="/plugin/bootstrap-4.6.0-dist/js/bootstrap.bundle.js"></script>
-    <script type=“text/javascript” src="/teacher/js/scripts.js"></script>
 
 </head>
 <body style="width: 100%;">
@@ -25,7 +21,7 @@
     <div class="card mb-4">
         <div class="card-body">
             <div class="row">
-                <div class="dropdown col-3">
+                <div id="ages" class="dropdown col-3">
                     <button class="btn btn-secondary dropdown-toggle col-10" type="button"
                             id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
@@ -84,8 +80,13 @@
     </footer>
 </div>
 </div>
+
+<script type=“text/javascript” src="/plugin/js/echarts.5.2.1.js"></script>
+<script type=“text/javascript” src="/plugin/bootstrap-4.6.0-dist/js/bootstrap.bundle.js"></script>
+<script type=“text/javascript” src="/teacher/js/scripts.js"></script>
+
 <script type="text/javascript">
-    let title = "四六级通过人数"
+    var title = "四六级通过人数"
 
     $(function () {
         var chart = echarts.init(document.getElementById('PieChart'));
@@ -99,9 +100,9 @@
             url: "/getAllGrades",
             type: "POST",
             success: function (response) {
-                $('.dropdown-menu').html('');
+                $('#ages .dropdown-menu').html('');
                 response.data.forEach(function (age) {
-                    $('.dropdown-menu').append("<a class='dropdown-item' href='#'>"+age+"</a>")
+                    $('#ages .dropdown-menu').append("<a class='dropdown-item' href='#'>"+age+"</a>")
                 })
                 // chart.hideLoading();
             },
@@ -110,6 +111,8 @@
                 // chart.hideLoading();
             },
         })
+
+        console.log($('#ages .dropdown-item').text())
 
         chart.setOption({
             title: {
@@ -140,17 +143,17 @@
             let classname = $('#classname').val()
             let querytype = $('#querytype').val()
             console.log(classname, querytype)
-            alert("发送ajax了")
             $.ajax({
-                url: "/queryCet",
-                data: JSON.stringify({ "classname": classname}),
-                type: "GET",
+                url: "/queryCET46",
+                data: JSON.stringify({"classname": classname}),
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
                 success: function (response) {
                     let chartdata
                     let charttitle
-                    CET4 = response.data.CET4
-                    CET6 = response.data.CET6
-                    total = response.data.total
+                    CET4 = response.CET4
+                    CET6 = response.CET6
+                    total = response.total
                     chart.hideLoading();
                     if (querytype == "cet4") {
                         charttitle = "四级表格,总人数:" + total
@@ -191,21 +194,24 @@
 
         })
 
-        $('.dropdown-item').click(function () {
-            console.log('12312312312')
+        $('#ages ').on('click','.dropdown-item',function () {
+            let grade = $(this).text()
+            console.log(grade)
             $.ajax({
-                url: '',
+                url: '/getClassByAge',
                 data: JSON.stringify({
-                    'age': $(this).text()
+                    "age": grade
                 }),
                 type: 'POST',
+                contentType: "application/json;charset=UTF-8",
                 success: function (response) {
                     $('#classname').html("<option selected>请选择班级</option>")
-                    for (classname in response.data) {
+                    response.data.forEach(function (classname) {
                         $('#classname').append(
                             '<option value="' + classname + '">' + classname + '</option>'
                         )
-                    }
+                    })
+                    $('#ages button').first().text(grade)
                     $('select').attr('disabled', false)
                 },
                 error: function () {

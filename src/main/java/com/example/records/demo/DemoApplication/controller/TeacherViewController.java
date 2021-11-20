@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/teacher")
 public class TeacherViewController {
 
-    @GetMapping("/cet46")
+    @GetMapping("/views/cet46")
     public String cet(){
         return "teacher/views/cet46";
     }
 
-    @GetMapping("/index")
+    @GetMapping("views/index")
     public String index(){
         return "teacher/views/index";
     }
