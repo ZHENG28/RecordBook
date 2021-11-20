@@ -4,13 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -36,5 +30,10 @@ public class CClass {
 	@Builder.Default
 	@OneToMany(mappedBy = "cclass",cascade = {CascadeType.DETACH,CascadeType.MERGE},fetch = FetchType.EAGER)
 	private Set<Student> students = new HashSet<Student>();
-	
+
+	//年级-班级
+	@ManyToOne(cascade = {CascadeType.DETACH},fetch = FetchType.EAGER)
+	@JoinColumn(name = "grade_id",referencedColumnName = "id")
+	private Sgrade sgrade;
+
 }
