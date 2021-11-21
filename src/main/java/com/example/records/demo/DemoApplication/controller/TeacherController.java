@@ -77,40 +77,4 @@ public class TeacherController {
 		response.put("total",total);
 		return response;
 	}
-
-	//查询所有的年纪
-	@PostMapping("/getAllGrades")
-	@ResponseBody
-	public Map<String ,List> getAllGrades(){
-		Map<String,List> grades = new HashMap<>();
-
-//		总之返回一个list
-		ArrayList<String> list = new ArrayList<>();
-//		这里先假装查询到了年级
-		list.add("2018");
-		list.add("2019");
-		list.add("2020");
-		list.add("2021");
-		grades.put("data",list);
-		return grades;
-	}
-
-	//查询一个年纪有哪几个班
-	@PostMapping("/getClassByAge")
-	@ResponseBody
-	public Map<String ,List> getClassByAge(@RequestBody Map<String,String> ages){
-		String grade = ages.get("age");
-		System.out.println(grade);
-		Map<String,List> grades = new HashMap<>();
-
-//		总之返回一个list
-		ArrayList<String> list = new ArrayList<>();
-//		这里先假装查询到了班级
-		list.add("计师19");
-		list.add("教技19");
-		list.add("机师19");
-		list.add("心理19");
-		grades.put("data",list);
-		return grades;
-	}
 }

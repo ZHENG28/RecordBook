@@ -19,7 +19,7 @@ public class CClass {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String class_name;
+	private String className;
 	
 	@Tolerate
 	public CClass() {

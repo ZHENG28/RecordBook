@@ -95,8 +95,8 @@
         // chart.showLoading();
         //获取年级
         $.ajax({
-            url: "/getAllGrades",
-            type: "POST",
+            url: "/sgrade/getAllGrade",
+            type: "GET",
             success: function (response) {
                 $('#ages .dropdown-menu').html('');
                 response.data.forEach(function (age) {
@@ -110,7 +110,7 @@
             },
         })
 
-        console.log($('#ages .dropdown-item').text())
+        console.log($('#ages .dropdown-item').text());
 
         chart.setOption({
             title: {
@@ -168,7 +168,7 @@
                         ]
                     }
                     else {
-                        charttitle = "总览,总人数:" + total
+                        charttitle = "总览,总人数:" + total;
                         chartdata = [
                             { value: CET4, name: "CET4" },
                             { value: CET6, name: "CET6" },
@@ -185,7 +185,7 @@
                     })
                 },
                 error: function (response) {
-                    console.log("加载CET error!")
+                    console.log("加载CET error!");
                     chart.hideLoading();
                 },
             })
@@ -193,28 +193,27 @@
         })
 
         $('#ages ').on('click','.dropdown-item',function () {
-            let grade = $(this).text()
-            console.log(grade)
+            let grade = $(this).text();
             $.ajax({
-                url: '/getClassByAge',
-                data: JSON.stringify({
-                    "age": grade
-                }),
-                type: 'POST',
+                url: '/sgrade/getClassByGrade',
+                data: {
+                    "grade": grade
+                },
+                type: 'GET',
                 contentType: "application/json;charset=UTF-8",
                 success: function (response) {
-                    $('#classname').html("<option selected>请选择班级</option>")
+                    $('#classname').html("<option selected>请选择班级</option>");
                     response.data.forEach(function (classname) {
                         $('#classname').append(
                             '<option value="' + classname + '">' + classname + '</option>'
                         )
                     })
-                    $('#ages button').first().text(grade)
+                    $('#ages button').first().text(grade);
                     $('select').attr('disabled', false)
                 },
                 error: function () {
-                    console.log('班级加载失败!')
-                    $('select').attr('disabled', false)
+                    console.log('班级加载失败!');
+                    $('select').attr('disabled', false);
                 }
             })
         })

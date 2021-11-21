@@ -6,6 +6,7 @@ import com.example.records.demo.DemoApplication.entity.CClass;
 
 import java.util.List;
 
-public interface CClassRepository extends JpaRepository<CClass,Long>{
-//	List<CClass> findByClass_nameLike(String grade);
+public interface CClassRepository extends JpaRepository<CClass, Long>
+{
+    List<CClass> findByClassNameLike(String grade);
 }

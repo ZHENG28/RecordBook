@@ -14,23 +14,4 @@ public class CClassService
 {
     @Autowired
     CClassRepository cclassRepo;
-
-    public Set<String> getAllGrade()
-    {
-        List<CClass> classList = cclassRepo.findAll();
-        Set<String> grades = new HashSet<>();
-
-        for (CClass c : classList) {
-            grades.add("20" + c.getClass_name().substring(c.getClass_name().length() - 2));
-        }
-
-        return grades;
-    }
-
-    public List<String> getClassByGrade(String grade)
-    {
-//        List<CClass> classList = cclassRepo.findByClass_nameLike("%" + grade.substring(2));
-//        System.out.println(classList);
-        return null;
-    }
 }
