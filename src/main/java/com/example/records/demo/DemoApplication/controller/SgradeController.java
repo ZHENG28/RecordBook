@@ -35,4 +35,10 @@ public class SgradeController
         grades.put("data", sgradeService.getClassByGrade(grade.substring(2, 4)));
         return grades;
     }
+
+    @GetMapping("/addSgrade")
+    public Object addSgrade(String sgrade)
+    {
+        return sgradeService.addSgrade(sgrade);
+    }
 }

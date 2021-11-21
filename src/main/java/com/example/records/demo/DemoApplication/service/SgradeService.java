@@ -36,4 +36,11 @@ public class SgradeService
         }
         return classList;
     }
+
+    public Object addSgrade(String grade)
+    {
+        Sgrade g = new Sgrade();
+        g.setGradeName(grade);
+        return sgradeRepository.save(g);
+    }
 }
