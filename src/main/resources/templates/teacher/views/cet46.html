@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <!--    <meta name="description" content="" />-->
     <!--    <meta name="author" content="" />-->
     <!--    <link href="css/styles.css" rel="stylesheet" />-->
@@ -84,7 +84,7 @@
 <script type=“text/javascript” src="/teacher/js/scripts.js"></script>
 
 <script type="text/javascript">
-    var title = "四六级通过人数"
+    var title = "四六级通过人数";
 
     $(function () {
         var chart = echarts.init(document.getElementById('PieChart'));
@@ -100,7 +100,7 @@
             success: function (response) {
                 $('#ages .dropdown-menu').html('');
                 response.data.forEach(function (age) {
-                    $('#ages .dropdown-menu').append("<a class='dropdown-item' href='#'>"+age+"</a>")
+                    $('#ages .dropdown-menu').append("<a class='dropdown-item' href='#'>" + age + "</a>")
                 })
                 // chart.hideLoading();
             },
@@ -108,91 +108,10 @@
                 console.log("加载年级失败")
                 // chart.hideLoading();
             },
-        })
+        });
 
-        console.log($('#ages .dropdown-item').text());
-
-        chart.setOption({
-            title: {
-                text: title
-            },
-            series: [
-                {
-                    name: title,
-                    type: 'pie',    // 设置图表类型为饼图
-                    radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
-                    data: [          // 数据数组，name 为数据项名称，value 为数据项值
-                        { value: CET4, name: "CET4" },
-                        { value: 6, name: "四级未通过人数" },
-                        // classData.data
-                    ],
-                    itemStyle: {
-                        normal: {
-                            shadowBlur: 500,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                        }
-                    }
-                }
-            ]
-        })
-
-        $('#queryCET').click(function () {
-            chart.showLoading();
-            let classname = $('#classname').val()
-            let querytype = $('#querytype').val()
-            console.log(classname, querytype)
-            $.ajax({
-                url: "/queryCET46",
-                data: JSON.stringify({"classname": classname}),
-                type: "POST",
-                contentType: "application/json;charset=UTF-8",
-                success: function (response) {
-                    let chartdata
-                    let charttitle
-                    CET4 = response.CET4
-                    CET6 = response.CET6
-                    total = response.total
-                    chart.hideLoading();
-                    if (querytype == "cet4") {
-                        charttitle = "四级表格,总人数:" + total
-                        chartdata = [
-                            { value: CET4, name: "CET4" },
-                            { value: total - CET4, name: "未通过4级人数" }
-                        ]
-                    }
-                    else if (querytype == "cet6") {
-                        chartdata = "六级表格,总人数:" + total
-                        chartdata = [
-                            { value: CET6, name: "CET6" },
-                            { value: total - CET6, name: "未通过6级人数" }
-                        ]
-                    }
-                    else {
-                        charttitle = "总览,总人数:" + total;
-                        chartdata = [
-                            { value: CET4, name: "CET4" },
-                            { value: CET6, name: "CET6" },
-                            { value: total, name: "总人数" }
-                        ]
-                    }
-                    chart.setOption({
-                        title: {
-                            text: charttitle
-                        },
-                        series: [{
-                            data: chartdata
-                        }]
-                    })
-                },
-                error: function (response) {
-                    console.log("加载CET error!");
-                    chart.hideLoading();
-                },
-            })
-
-        })
-
-        $('#ages ').on('click','.dropdown-item',function () {
+        //根据年级获取班级
+        $('#ages ').on('click', '.dropdown-item', function () {
             let grade = $(this).text();
             $.ajax({
                 url: '/sgrade/getClassByGrade',
@@ -216,6 +135,88 @@
                     $('select').attr('disabled', false);
                 }
             })
+        });
+
+        console.log($('#ages .dropdown-item').text());
+
+        chart.setOption({
+            title: {
+                text: title
+            },
+            series: [
+                {
+                    name: title,
+                    type: 'pie',    // 设置图表类型为饼图
+                    radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+                    data: [          // 数据数组，name 为数据项名称，value 为数据项值
+                        {value: CET4, name: "CET4"},
+                        {value: 6, name: "四级未通过人数"},
+                        // classData.data
+                    ],
+                    itemStyle: {
+                        normal: {
+                            shadowBlur: 500,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        });
+
+        $('#queryCET').click(function () {
+            chart.showLoading();
+            let grade = $('#ages .dropdown-item').text();
+            console.log(grade);
+            let classname = $('#classname').val();
+            let querytype = $('#querytype').val();
+            console.log(classname, querytype);
+            $.ajax({
+                url: "/queryCET46",
+                data: JSON.stringify({"grade": grade, "classname": classname}),
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
+                success: function (response) {
+                    let chartdata
+                    let charttitle
+                    CET4 = response.CET4
+                    CET6 = response.CET6
+                    total = response.total
+                    chart.hideLoading();
+                    if (querytype == "cet4") {
+                        charttitle = "四级表格,总人数:" + total
+                        chartdata = [
+                            {value: CET4, name: "CET4"},
+                            {value: total - CET4, name: "未通过4级人数"}
+                        ]
+                    } else if (querytype == "cet6") {
+                        chartdata = "六级表格,总人数:" + total
+                        chartdata = [
+                            {value: CET6, name: "CET6"},
+                            {value: total - CET6, name: "未通过6级人数"}
+                        ]
+                    } else {
+                        charttitle = "总览,总人数:" + total;
+                        chartdata = [
+                            {value: CET4, name: "CET4"},
+                            {value: CET6, name: "CET6"},
+                            {value: total, name: "总人数"}
+                        ]
+                    }
+                    chart.setOption({
+                        title: {
+                            text: charttitle
+                        },
+                        series: [{
+                            data: chartdata
+                        }]
+                    })
+                },
+                error: function (response) {
+                    console.log("加载CET error!");
+                    chart.hideLoading();
+                },
+            })
+
         })
     })
 </script>
