@@ -37,6 +37,7 @@ public class SgradeController
     }
 
     @GetMapping("/addSgrade")
+    @ResponseBody
     public Object addSgrade(String sgrade)
     {
         return sgradeService.addSgrade(sgrade);
