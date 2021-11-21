@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>添加学生</title>
+    <link rel="stylesheet" href="/plugin/sweetalert/sweetalert.css">
 </head>
 <body>
 <div class="container-fluid">
@@ -27,15 +28,17 @@
                                 <a class="dropdown-item" href="#">2021</a>
                             </div>
                         </div>
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">班级</button>
+                        <div>
+                        <button class="btn btn-outline-secondary dropdown-toggle" style="height: 100%;" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">班级</button>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="#">计师</a>
                             <a class="dropdown-item" href="#">教技</a>
                             <a class="dropdown-item" href="#">心理</a>
                         </div>
+                        </div>
                     </div>
-                    <input type="text" class="form-control" placeholder="学生姓名">
                     <input type="number" class="form-control" placeholder="学生学号">
+                    <input type="text" class="form-control" placeholder="学生姓名">
                     <div class="input-group-append">
                         <button id="addone" class="btn btn-outline-secondary" type="button">添加</button>
                     </div>
@@ -49,24 +52,168 @@
         </div>
         <div class="card-body">
             <div class="input-group">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary dropdown-toggle" style="height: 100%;" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">添加类型</button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">年级</a>
+                        <a class="dropdown-item" href="#">班级</a>
+                        <a class="dropdown-item" href="#">单个学生</a>
+                    </div>
+                </div>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile04">
-                    <label class="custom-file-label" for="inputGroupFile04">选择文件</label>
+                    <input type="file" class="custom-file-input" id="stuxlsx" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                    <label id="filename" class="custom-file-label" for="stuxlsx">选择文件</label>
                 </div>
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button">上传</button>
+                    <button id="submitdata" class="btn btn-outline-secondary" type="button">提交</button>
                 </div>
             </div>
         </div>
         <div class="card mb-4">
-            <div class="col-lg-12">
-                <div class="card-header"><i class="fas fa-chart-pie mr-1"></i>预览</div>
-                <div class="card-body">
-                    <div id="LineChart" style="width: 100%;height:400px;"></div>
-                </div>
+            <div class="card-header"><i class="fas fa-chart-pie mr-1"></i>预览</div>
+            <div class="card-body">
+                <div id="result" style="width: 100%;height:400px;overflow-y: scroll"></div>
             </div>
         </div>
     </div>
 </div>
+<script type="text/javascript" src="/plugin/jQuery-3.6.0/jquery-3.6.0.js"></script>
+<script type="text/javascript" src="/plugin/sweetalert/sweetalert-2.1.2.min.js"></script>
+<script type="text/javascript" src="/plugin/js-xlsx/xlsx.js"></script>
+<script>$(function () {
+
+    $('.dropdown-menu .dropdown-item').on('click',function (){
+        $(this).closest('div:not(.dropdown-menu)').find('button').first().text($(this).text())
+    })
+
+    function selectFile() {
+        $('#stuxlsx').click();
+    }
+
+    // 读取本地excel文件
+    function readWorkbookFromLocalFile(file, callback) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var data = e.target.result;
+            var workbook = XLSX.read(data, { type: 'binary' });
+            var sheetNames = workbook.SheetNames; // 工作表名称集合
+            var worksheet = workbook.Sheets[sheetNames[0]];
+            console.log("JSON:")
+            console.log(XLSX.utils.sheet_to_json(worksheet))
+            if (callback) callback(workbook);
+        };
+        reader.readAsBinaryString(file);
+
+    }
+
+    // 读取 excel文件
+    function outputWorkbook(workbook) {
+        var sheetNames = workbook.SheetNames; // 工作表名称集合
+        sheetNames.forEach(name => {
+            var worksheet = workbook.Sheets[name]; // 只能通过工作表名称来获取指定工作表
+            for (var key in worksheet) {
+                // v是读取单元格的原始值
+                console.log(key, key[0] === '!' ? worksheet[key] : worksheet[key].v);
+            }
+        });
+    }
+
+    //读取workbook
+    function readWorkbook(workbook) {
+        var sheetNames = workbook.SheetNames; // 工作表名称集合
+        var worksheet = workbook.Sheets[sheetNames[0]]; // 这里我们只读取第一张sheet
+        var csv = XLSX.utils.sheet_to_csv(worksheet);
+        let htm = XLSX.utils.sheet_to_html(worksheet)
+        $('#result').html(csv_toTable(csv));
+    }
+
+    // 将csv转换成表格
+    function csv_toTable(csv) {
+        var html = '<table>';
+        var rows = csv.split('\n');
+        rows.pop(); // 最后一行没用的
+        rows.forEach(function (row, idx) {
+            var columns = row.split(',');
+            columns.unshift(idx + 1); // 添加行索引
+            if (idx == 0) { // 添加列索引
+                html += '<tr>';
+                for (var i = 0; i < columns.length; i++) {
+                    html += '<th>' + (i == 0 ? '' : String.fromCharCode(65 + i - 1)) + '</th>';
+                }
+                html += '</tr>';
+            }
+            html += '<tr>';
+            columns.forEach(function (column) {
+                html += '<td>' + column + '</td>';
+            });
+            html += '</tr>';
+        });
+        html += '</table>';
+        return html;
+    }
+
+    function table_toCSV(table) {
+        var csv = [];
+        $(table).find('tr').each(function () {
+            var temp = [];
+            $(this).find('td').each(function () {
+                temp.push($(this).html());
+            })
+            temp.shift(); // 移除第一个
+            csv.push(temp.join(','));
+        });
+        csv.shift();
+        return csv.join('\n');
+    }
+
+    // csv转sheet对象
+    function csv_toSheet(csv) {
+        var sheet = {}; // 将要生成的sheet
+        csv = csv.split('\n');
+        csv.forEach(function (row, i) {
+            row = row.split(',');
+            if (i == 0) sheet['!ref'] = 'A1:' + String.fromCharCode(65 + row.length - 1) + (csv.length - 1);
+            row.forEach(function (col, j) {
+                sheet[String.fromCharCode(65 + j) + (i + 1)] = { v: col };
+            });
+        });
+        return sheet;
+    }
+
+    $('#stuxlsx').on('change', function (e) {
+        var files = e.target.files;
+        if (files.length == 0) {
+            swal({
+                title:"文件为空！",
+                text:"请选择文件",
+                icon: "error",
+                buttons:{
+                    confirm: {
+                        text: "好的",
+                        value: true,
+                        visible: true,
+                        className: "",
+                        closeModal: true
+                    }
+                }
+            });
+            return;
+        }
+        var f = files[0];
+        if (!/\.xlsx$/g.test(f.name)) {
+            swal({
+                title:"文件类型错误！",
+                text:"请选择XLSX文件",
+                icon: 'error',
+                button:"好的"
+            });
+            return;
+        }
+        $('#filename').text(f.name)
+        readWorkbookFromLocalFile(f, function (workbook) {
+            readWorkbook(workbook);
+        });
+    });
+});</script>
 </body>
 </html>
