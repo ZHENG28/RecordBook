@@ -20,15 +20,7 @@
                     </div>
                     <input id="inputgrade" type="number" class="form-control" placeholder="可以点最右边的按钮添加今年" aria-label="Username" aria-describedby="basic-addon1">
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-outline-secondary">添加</button>
-                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="sr-only"></span>
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">添加今年</a>
-                            <div role="separator" class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">先放着，没想好放啥</a>
-                        </div>
+                        <button id="addyear" type="button" class="btn btn-outline-secondary">添加</button>
                     </div>
                 </div>
             </div>
@@ -43,5 +35,30 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(function (){
+        $('#inputgrade').val(new Date().getFullYear())
+
+        $('#addyear').click(function (){
+            let grade = $('#inputgrade').val()
+            if (grade < 2016 || grade> new Date().getFullYear() + 20){
+                swal({
+                    title:'警告',
+                    text:'您输入的年级似乎有误?',
+                    icon:'warning',
+                    submit:submitgrade(grade),
+                    button:{ text:'确定提交'},
+                    cancel:null
+                })
+            }else {
+                submitgrade(grade)
+            }
+        })
+
+        function submitgrade(grade) {
+            console.log(grade)
+        }
+    })
+</script>
 </body>
 </html>

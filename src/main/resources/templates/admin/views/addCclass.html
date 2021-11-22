@@ -15,8 +15,8 @@
         <div class="card-body">
             <div class="row">
                 <div class="input-group input-group-lg mb-3">
-                    <div class="input-group-prepend">
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">请选择年级</button>
+                    <div class="input-group-prepend selectgroups">
+                        <button id="grade" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">请选择年级</button>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="#">2019</a>
                             <a class="dropdown-item" href="#">2020</a>
@@ -25,12 +25,12 @@
                     </div>
                     <input id="classname" type="text" class="form-control" placeholder="要添加的班级名字" aria-label="Username" aria-describedby="basic-addon1">
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-outline-secondary">添加</button>
+                        <button id="addone" type="button" class="btn btn-outline-secondary">添加</button>
                         <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="sr-only"></span>
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">添加所有班</a>
+                            <a id="addall" class="dropdown-item" href="#">添加所有班</a>
                             <div role="separator" class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">先放着，没想好放啥</a>
                         </div>
@@ -48,5 +48,83 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(function (){
+
+        $('.selectgroups').on('click','.dropdown-item',function (){
+            $('#grade').text($(this).text())
+        })
+
+        $('#addone').on('click',function (){
+            let classname = $.trim($('#classname').val());
+            let grade = $('#grade').text()
+            console.log(classname,grade)
+            if (grade == "请选择年级"){
+                swal({
+                    title:'提示',
+                    icon:'warning',
+                    text:'请选择添加的年级'
+                })
+            }else if (classname == ""){
+                swal({
+                    title:'提示',
+                    icon:'warning',
+                    text:'请输入班级名称'
+                })
+            }else {
+                $.ajax({
+                    url:'/cclass/addClass',
+                    type:"GET",
+                    data:JSON.stringify({
+                        "classname":classname,
+                        "grade":grade
+                    }),
+                    contentType: "application/json;charset=UTF-8",
+                    success:function (response){
+                        console.log(response)
+                        swal({
+                            icon: 'success',
+                            text: '添加成功'
+                        })
+                    },
+                    error:function (response) {
+                        swal({
+                            icon:'error',
+                            text:"添加失败"
+                        })
+                    }
+                })
+            }
+        })
+
+        $('#addall').on('click',function (){
+            let grade = $('#grade').text()
+            if (grade == "请选择年级"){
+                swal({
+                    title:'提示',
+                    icon:'info',
+                    text:'请选择添加的年级'
+                })
+            }
+        })
+
+        $.ajax({
+            url: "/sgrade/getAllGrade",
+            type: "GET",
+            success: function (response) {
+                $('.selectgroups .dropdown-menu').html('');
+                response.data.forEach(function (grade) {
+                    $('.selectgroups .dropdown-menu').append("<a class='dropdown-item' href='#'>" + grade + "</a>")
+                })
+            },
+            error: function (response) {
+                console.log("加载年级失败")
+                // chart.hideLoading();
+            },
+        });
+    })
+
+</script>
 </body>
 </html>
