@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>课表</title>
+</head>
+<body>
+<div class="card mb-4 w-100">
+    <div class="card-header">
+        你的课程表
+    </div>
+    <div class="card-body">
+        <table class="table table-sm table-striped table-bordered text-center" contenteditable="true">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">星期一</th>
+                <th scope="col">星期二</th>
+                <th scope="col">星期三</th>
+                <th scope="col">星期四</th>
+                <th scope="col">星期五</th>
+                <th scope="col">星期六</th>
+                <th scope="col">星期天</th>
+            </tr>
+            </thead>
+            <tbody id="schedule">
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function (){
+        for (let i=1;i<14;i++){
+            let row = "<tr><td scope='col'>"+i+"</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>"
+            $('#schedule').append(row)
+        }
+
+        function drawtable(tabledata) {
+            $('#schedule').html("")
+            for (let i=1;i<14;i++){
+                let row = "<tr><td scope='col'>"+i+"</td>"
+                for (let j = 0;j<7;j++){
+                    row += "<td>" + tabledata[i-1][j] + "</td>"
+                }
+                row += "</tr>"
+                $('#schedule').append(row)
+            }
+        }
+    })
+</script>
+</body>
+</html>
