@@ -49,11 +49,16 @@ public class TeacherController
     //查询功能
     //查看所有班级
     @GetMapping("/queryTotalClass")
-    public String queryTotalClass(Model model)
+    @ResponseBody
+    public Object queryTotalClass()
     {
-        List<CClass> totalclass = classRepo.findAll();
-        model.addAttribute("totalclass", totalclass);
-        return "teacher/totalClass";
+        Map<String, Object> totalclass = new HashMap<>();
+        List<String> classname = new ArrayList<String>();
+        for (CClass classes : classRepo.findAll()){
+            classname.add(classes.getClassName());
+        }
+        totalclass.put("data",classname);
+        return totalclass;
     }
 
     //查看班级学生

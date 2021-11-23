@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+<body>
+	<table id="totalClass">
+
+	</table>
+
+<script>
+	$(function () {
+		$.ajax({
+			url: "/queryTotalClass",
+			type: "Get",
+			contentType: "application/json;charset=UTF-8",
+			success: function (response) {
+				response.data.forEach(function (cclass) {
+					$('#totalClass').append("<tr><td>" + cclass+ "</td></tr>")
+				})
+			},
+			error: function (response) {
+				console.log("加载班级失败")
+			},
+		})
+	})
+	</script>
+</body>
+</html>
