@@ -30,7 +30,8 @@ public class TeacherViewController {
     }
 
     @GetMapping("/views/totalClass")
-    public String totalClass(Model model){
+    public String totalClass(){
         return "teacher/views/totalClass";
     }
+
 }

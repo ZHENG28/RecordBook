@@ -62,14 +62,13 @@ public class TeacherController
     }
 
     //查看班级学生
-    @GetMapping("/queryClass")
-    public String queryClass(Model model, @RequestParam(name = "classId") Long classId)
+    @GetMapping("/queryClassStudent")
+    public List<Student> queryClass(@RequestBody Map<String, String> queryinfo)
     {
-        Optional<CClass> cClass = classRepo.findById(classId);
-        Set<Student> students = cClass.get().getStudents();
-        model.addAttribute("class", cClass.get());
-        model.addAttribute("students", students);
-        return "teacher/classStudent";
+        String className = queryinfo.get("className");
+        Optional<CClass> cClass = classRepo.findByClassName(className);
+        List<Student> students = (List<Student>) cClass.get().getStudents();
+        return students;
     }
 
     //查询某个班的CET信息
