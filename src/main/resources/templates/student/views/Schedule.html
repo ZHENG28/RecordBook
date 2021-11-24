@@ -5,31 +5,49 @@
     <title>课表</title>
 </head>
 <body>
-<div class="card mb-4 w-100">
-    <div class="card-header">
-        你的课程表
-    </div>
-    <div class="card-body">
-        <table class="table table-sm table-striped table-bordered text-center" contenteditable="true">
-            <thead class="thead-light">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">星期一</th>
-                <th scope="col">星期二</th>
-                <th scope="col">星期三</th>
-                <th scope="col">星期四</th>
-                <th scope="col">星期五</th>
-                <th scope="col">星期六</th>
-                <th scope="col">星期天</th>
-            </tr>
-            </thead>
-            <tbody id="schedule">
-            </tbody>
-        </table>
+<div class="container-fluid">
+    <div class="card mb-4 w-100">
+        <div class="card-header"><i class="fas fa-table mr-1"></i>你的课程表</div>
+        <div class="card-body">
+            <table id="dataTable" class="table table-sm table-striped table-bordered text-center" contenteditable="true">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">星期一</th>
+                    <th scope="col">星期二</th>
+                    <th scope="col">星期三</th>
+                    <th scope="col">星期四</th>
+                    <th scope="col">星期五</th>
+                    <th scope="col">星期六</th>
+                    <th scope="col">星期天</th>
+                </tr>
+                </thead>
+                <tbody id="schedule">
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <div class="float-right">
+                <button id="exportExcel" type="button" class="btn btn-primary" disabled>导出为EXCEL</button>
+                <button id="savaSchedule" type="button" class="btn btn-info ">保存修改</button>
+            </div>
+        </div>
     </div>
 </div>
+
+<script type="text/javascript" src="/plugin/datatables/DataTables-1.11.3/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/plugin/datatables/DataTables-1.11.3/js/dataTables.bootstrap4.min.js"></script>
 <script type="text/javascript">
     $(function (){
+
+        var mon=[];
+        var tue=[];
+        var wed=[];
+        var thu=[];
+        var fri=[];
+        var sat=[];
+        var sun=[];
+
         for (let i=1;i<14;i++){
             let row = "<tr><td scope='col'>"+i+"</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>"
             $('#schedule').append(row)
@@ -46,6 +64,81 @@
                 $('#schedule').append(row)
             }
         }
+
+        $('#dataTable').DataTable({
+            paging:false,
+            lengthChange:false,
+            ordering:false,
+            info:false,
+            searching:false
+        });
+
+        $('#savaSchedule').click(function (){
+            mon=[]
+            tue=[]
+            wed=[]
+            thu=[]
+            fri=[]
+            sat=[]
+            sun=[]
+            let data=[]
+            $.each($('#schedule td'),function (index,dom){
+                let text = $(dom).text()
+                console.log(index,text)
+                data.push(text)
+                // for (let day =0;day<7;day++){
+                //     for (let time = 0;time < 13;time++){
+                //         let course = ''
+                //     }
+                // }
+            })
+            console.log(data)
+            data.forEach(function (value, index, array) {
+                switch (index%8){
+                    case 1:{
+                        mon.push(value)
+                        break;
+                    }
+                    case 2:{
+                        tue.push(value)
+                        break
+                    }
+                    case 3:{
+                        wed.push(value)
+                        break
+                    }
+                    case 4:{
+                        thu.push(value)
+                        break
+                    }
+                    case 5:{
+                        fri.push(value)
+                        break
+                    }
+                    case 6:{
+                        sat.push(value)
+                        break;
+                    }
+                    case 7:{
+                        sun.push(value)
+                        break;
+                    }
+                    default:{
+                        break;
+                    }
+                }
+            })
+            let totalclass = {
+                "mon":mon,
+                "tue":tue,
+                "wed":wed,
+                "thu":thu,
+                "fri":fri,
+                "sat":sat,
+                "sun":sun
+            }
+            console.log(totalclass)
+        })
     })
 </script>
 </body>
