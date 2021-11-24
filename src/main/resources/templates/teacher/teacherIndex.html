@@ -88,23 +88,26 @@
                             <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
                                  data-parent="#sidenavAccordionPages">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link myLeftMenu" href="javascript:void(0)">401 Page</a>
-                                    <a class="nav-link myLeftMenu" href="javascript:void(0)">404 Page</a>
-                                    <a class="nav-link myLeftMenu" href="javascript:void(0)">500 Page</a>
+                                    <a class="nav-link myLeftMenu" href="javascript:void(0)"
+                                       data="teacher/401.html">401 Page</a>
+                                    <a class="nav-link myLeftMenu" href="javascript:void(0)"
+                                       data="teacher/404.html">404 Page</a>
+                                    <a class="nav-link myLeftMenu" href="javascript:void(0)"
+                                       data="teacher/500.html">500 Page</a>
                                 </nav>
                             </div>
                         </nav>
                     </div>
                     <div class="sb-sidenav-menu-heading">信息查询</div>
-                    <a class="nav-link view-jump" href="/teacher/views/cet46">
+                    <a class="nav-link view-jump" href="/teacher/views/cet46" data="teacher/views/cet46">
                         <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                         四六级情况
                     </a>
-                    <a class="nav-link view-jump" href="teacher/lixiang">
+                    <a class="nav-link view-jump" href="teacher/views/project" data="teacher/views/project">
                         <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                         立项情况
                     </a>
-                    <a class="nav-link view-jump" href="/teacher/views/totalClass">
+                    <a class="nav-link view-jump" href="/teacher/views/totalClass" data="teacher/views/totalClass">
                         <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                         班级查询
                     </a>
@@ -134,6 +137,7 @@
     </div>
 </div>
 <script type="text/javascript" src="/plugin/js/jquery-3.6.0.js"></script>
+<!--<script type="text/javascript" src="/plugin/js/Admin Bootstrap.js"></script>-->
 
 <script type="text/javascript" src="/plugin/js/fontawesome.min.js"></script>
 <script type=“text/javascript” src="/plugin/bootstrap-4.6.0-dist/js/bootstrap.bundle.js"></script>
@@ -145,6 +149,7 @@
         $('#container').load('/teacher/views/index');
         $('.view-jump').click(function (e) {
             e.preventDefault();
+            // var url = $(this).attr('data');
             $('#container').load($(this).attr('href'))
         });
     })
