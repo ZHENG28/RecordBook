@@ -25,6 +25,9 @@ public class Project {
 	private String ranking;
 	@NonNull
 	private String name;
+	@NonNull
+	private String time;
+
 	
 	@Tolerate
 	public Project() {

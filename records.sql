@@ -197,10 +197,11 @@ CREATE TABLE `project` (
   `name` varchar(255) DEFAULT NULL,
   `ranking` varchar(255) DEFAULT NULL,
   `student_id` bigint DEFAULT NULL,
+  `time` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKjvi932wdxw4ux6m7u6abiy7qv` (`student_id`),
   CONSTRAINT `FKjvi932wdxw4ux6m7u6abiy7qv` FOREIGN KEY (`student_id`) REFERENCES `student` (`stu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -209,6 +210,7 @@ CREATE TABLE `project` (
 
 LOCK TABLES `project` WRITE;
 /*!40000 ALTER TABLE `project` DISABLE KEYS */;
+INSERT INTO `project` VALUES (1,'2019运河杯1','院级',5,'2019'),(2,'2019运河杯2','院级',5,'2019'),(3,'2020运河杯1','校级',2,'2020'),(4,'2020运河杯2','院级',6,'2020'),(5,'2019大创','省级',5,'2019'),(6,'2021互联网+','校级',2,'2021'),(7,'2021工贸85','校级',6,'2021'),(8,'2022运河杯','院级',6,'2022'),(9,'2020工贸85','校级',2,'2020'),(10,'2021运河杯1','院级',2,'2021'),(11,'2020运河杯2','校级',2,'2020');
 /*!40000 ALTER TABLE `project` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -441,4 +443,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-20 21:45:17
+-- Dump completed on 2021-11-24 14:48:42
