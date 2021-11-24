@@ -19,6 +19,11 @@ public class TeacherViewController {
         return "teacher/views/cet46";
     }
 
+    @GetMapping("/views/project")
+    public String project(){
+        return "teacher/views/project";
+    }
+
     @GetMapping("views/index")
     public String index(){
         return "teacher/views/index";
