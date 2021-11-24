@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +35,7 @@ public class CClass {
 	//年级-班级
 	@ManyToOne(cascade = {CascadeType.DETACH},fetch = FetchType.EAGER)
 	@JoinColumn(name = "grade_id",referencedColumnName = "id")
+	@JsonBackReference
 	private Sgrade sgrade;
 
 }

@@ -54,10 +54,10 @@ public class TeacherController
     {
         Map<String, Object> totalclass = new HashMap<>();
         List<String> classname = new ArrayList<String>();
-        for (CClass classes : classRepo.findAll()){
+        for (CClass classes : classRepo.findAll()) {
             classname.add(classes.getClassName());
         }
-        totalclass.put("data",classname);
+        totalclass.put("data", classname);
         return totalclass;
     }
 

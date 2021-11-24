@@ -1,5 +1,6 @@
 package com.example.records.demo.DemoApplication.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,7 @@ public class Sgrade {
 
     //年级-班级
     @Builder.Default
+    @JsonBackReference
     @OneToMany(mappedBy = "sgrade",cascade = {CascadeType.DETACH,CascadeType.MERGE},fetch = FetchType.EAGER)
     private Set<CClass> classes = new HashSet<>();
 
