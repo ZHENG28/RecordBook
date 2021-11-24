@@ -53,7 +53,7 @@ public class TeacherController
     public Object queryTotalClass()
     {
         Map<String, Object> totalclass = new HashMap<>();
-        List<String> classname = new ArrayList<String>();
+        List<String> classname = new ArrayList<>();
         for (CClass classes : classRepo.findAll()) {
             classname.add(classes.getClassName());
         }
@@ -63,11 +63,13 @@ public class TeacherController
 
     //查看班级学生
     @GetMapping("/queryClassStudent")
-    public List<Student> queryClass(@RequestBody Map<String, String> queryinfo)
+    @ResponseBody
+    public List<Student> queryClass(@RequestParam Map<String, String> queryinfo)
     {
+        List<Student> students = new ArrayList<>();
         String className = queryinfo.get("className");
         Optional<CClass> cClass = classRepo.findByClassName(className);
-        List<Student> students = (List<Student>) cClass.get().getStudents();
+        students.addAll(cClass.get().getStudents());
         return students;
     }
 
@@ -78,7 +80,6 @@ public class TeacherController
     {
         String grade = queryinfo.get("grade");
         String classname = queryinfo.get("classname");
-
         Map<String, Integer> response = new HashMap<>();
         int[] cetList = teacherService.getCet(grade, classname);
         response.put("CET4", cetList[0]);

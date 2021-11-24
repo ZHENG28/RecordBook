@@ -5,9 +5,9 @@
 	<title>Insert title here</title>
 </head>
 <body>
-	<div id="container">
+<div id="container">
 
-	</div>
+</div>
 
 <script>
 	$(function () {
@@ -18,36 +18,41 @@
 			success: function (response) {
 				response.data.forEach(function (cclass) {
 					$('#container').append("<p><a class='classDetail' href='#'>" + cclass+ "</a></p>")
-					$('.classDetail').click(function (e) {
-						let className = $(this).text()
-						$("#container").html("")
-						$.ajax({
-							url:"/queryClassStudent",
-							data: {
-								"className": className
-							},
-							type: 'GET',
-							contentType: "application/json;charset=UTF-8",
-							success: function (response) {
-								//stringify()用于从一个对象解析出字符串
-								let jsonData = JSON.stringify(response);
-								jQuery.each(JSON.parse(jsonData), function(i,student){
-									$('#container').append("<p><a class='studentDetail' href='#'>" + student.name + "</a></p>")
-								})
-							},
-							error: function () {
-								console.log('学生名单加载失败!')
-							}
-						})
-					})
+
 				})
 			},
-			error: function (response) {
+			error: function () {
 				console.log("加载班级失败")
 			},
 		})
 
+		$('#container').on('click','.classDetail',function (e) {
+			e.preventDefault()
+			let className = $(this).text()
+			console.log(111111)
+			$("#container").html("")
+			$.ajax({
+				url:"/queryClassStudent",
+				data: {
+					"className": className
+				},
+				type: 'GET',
+				contentType: "application/json;charset=UTF-8",
+				success: function (response) {
+					console.log(response)
+					//stringify()用于从一个对象解析出字符串
+					let jsonData = JSON.stringify(response);
+					jQuery.each(JSON.parse(jsonData), function(i,student){
+						$('#container').append("<p><a class='studentDetail' href='#' data='"+student.id+"'>" + student.name + "</a></p>")
+					})
+				},
+				error: function () {
+					console.log('学生名单加载失败!')
+				}
+			})
+		})
+
 	})
-	</script>
+</script>
 </body>
 </html>
