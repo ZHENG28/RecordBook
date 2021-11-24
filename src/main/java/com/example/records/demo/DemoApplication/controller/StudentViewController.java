@@ -12,4 +12,9 @@ public class StudentViewController {
     public String Schedule(){
         return "student/views/Schedule";
     }
+
+    @GetMapping("/project")
+    public String project(){
+        return "student/views/project";
+    }
 }
