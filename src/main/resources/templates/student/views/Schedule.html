@@ -9,7 +9,7 @@
     <div class="card mb-4 w-100">
         <div class="card-header"><i class="fas fa-table mr-1"></i>你的课程表</div>
         <div class="card-body">
-            <table id="dataTable" class="table table-sm table-striped table-bordered text-center" contenteditable="true">
+            <table id="dataTable" class="table table-sm table-striped table-bordered text-center">
                 <thead class="thead-light">
                 <tr>
                     <th scope="col">#</th>
@@ -28,7 +28,7 @@
         </div>
         <div class="card-footer">
             <div class="float-right">
-                <button id="exportExcel" type="button" class="btn btn-primary" disabled>导出为EXCEL</button>
+                <button id="exportExcel" type="button" class="btn btn-primary">导出为EXCEL</button>
                 <button id="savaSchedule" type="button" class="btn btn-info ">保存修改</button>
             </div>
         </div>
@@ -37,115 +37,119 @@
 
 <script type="text/javascript" src="/plugin/datatables/DataTables-1.11.3/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/plugin/datatables/DataTables-1.11.3/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="/plugin/sweetalert/sweetalert-2.1.2.min.js"></script>
+
 <script type="text/javascript">
-    $(function () {
+    $(function (){
 
-        var mon = [];
-        var tue = [];
-        var wed = [];
-        var thu = [];
-        var fri = [];
-        var sat = [];
-        var sun = [];
+        var mon=[];
+        var tue=[];
+        var wed=[];
+        var thu=[];
+        var fri=[];
+        var sat=[];
+        var sun=[];
 
-        for (let i = 1; i < 14; i++) {
-            let row = "<tr><td scope='col'>" + i + "</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>"
+        let editcell="<td><input class='w-100' style='height: 20px' type='checkbox'></td>"
+
+        for (let i=1;i<14;i++){
+            let row = "<tr><td scope='col'>"+i+editcell+editcell+editcell+editcell+editcell+editcell+editcell+"</tr>"
             $('#schedule').append(row)
         }
 
-        function drawtable(tabledata) {
-            $('#schedule').html("")
-            for (let i = 1; i < 14; i++) {
-                let row = "<tr><td scope='col'>" + i + "</td>"
-                for (let j = 0; j < 7; j++) {
-                    row += "<td>" + tabledata[i - 1][j] + "</td>"
+        function getTableData() {
+            mon=[]
+            tue=[]
+            wed=[]
+            thu=[]
+            fri=[]
+            sat=[]
+            sun=[]
+            let data=[]
+            $.each($('#schedule td input'),function (index,dom){
+                // let text = dom.checked//获取布尔值
+                // data.push(text)
+                if (dom.checked){
+                    data.push(1)
+                }else {
+                    data.push(0)
                 }
-                row += "</tr>"
-                $('#schedule').append(row)
+            })
+            data.forEach(function (value, index, array) {
+                switch (index%7){
+                    case 0:{
+                        mon.push(value)
+                        break;
+                    }
+                    case 1:{
+                        tue.push(value)
+                        break
+                    }
+                    case 2:{
+                        wed.push(value)
+                        break
+                    }
+                    case 3:{
+                        thu.push(value)
+                        break
+                    }
+                    case 4:{
+                        fri.push(value)
+                        break
+                    }
+                    case 5:{
+                        sat.push(value)
+                        break;
+                    }
+                    case 6:{
+                        sun.push(value)
+                        break;
+                    }
+                    default:{
+                        break;
+                    }
+                }
+            })
+            let totalclass = {
+                "mon":mon,
+                "tue":tue,
+                "wed":wed,
+                "thu":thu,
+                "fri":fri,
+                "sat":sat,
+                "sun":sun
             }
+            // console.log(totalclass)
+            return totalclass;
         }
 
-        $('#dataTable').DataTable({
-            paging: false,
-            lengthChange: false,
-            ordering: false,
-            info: false,
-            searching: false
-        });
-
-        $('#savaSchedule').click(function () {
-            mon = [];
-            tue = [];
-            wed = [];
-            thu = [];
-            fri = [];
-            sat = [];
-            sun = [];
-            let data = [];
-            $.each($('#schedule td'), function (index, dom) {
-                let text = $(dom).text();
-                data.push(text);
-                // for (let day =0;day<7;day++){
-                //     for (let time = 0;time < 13;time++){
-                //         let course = ''
-                //     }
-                // }
-            });
-            data.forEach(function (value, index, array) {
-                switch (index % 8) {
-                    case 1: {
-                        mon.push(value);
-                        break;
-                    }
-                    case 2: {
-                        tue.push(value);
-                        break;
-                    }
-                    case 3: {
-                        wed.push(value);
-                        break;
-                    }
-                    case 4: {
-                        thu.push(value);
-                        break;
-                    }
-                    case 5: {
-                        fri.push(value);
-                        break;
-                    }
-                    case 6: {
-                        sat.push(value);
-                        break;
-                    }
-                    case 7: {
-                        sun.push(value);
-                        break;
-                    }
-                    default: {
-                        break;
-                    }
-                }
-            });
-            let totalclass = {
-                "mon": mon,
-                "tue": tue,
-                "wed": wed,
-                "thu": thu,
-                "fri": fri,
-                "sat": sat,
-                "sun": sun,
-            };
-            console.log(totalclass);
+        $('#savaSchedule').click(function (){
+            let json = JSON.stringify(getTableData())
+            console.log(json)
 
             $.ajax({
-                url: "/timetable/saveStu",
-                type: "POST",
-                contentType: "application/json;charset=UTF-8",
-                data: JSON.stringify({"timetable": totalclass}),
-                success: function (response) {
-                    console.log(response);
+                url:"",
+                data:json,
+                type:"POST",
+                success:function (response) {
+                    alert(response)
+                },
+                error:function (response) {
+                    swal({
+                        title:"错误",
+                        icon:"error",
+                        text:response.responseJSON.message
+                    })
                 }
-            });
+            })
+        })
+
+        $('#exportExcel').click(function (){
+            swal({
+                title:"数据导出",
+                icon:"warning",
+                text:"还没写这个功能"
+            })
         })
     })
 </script>
