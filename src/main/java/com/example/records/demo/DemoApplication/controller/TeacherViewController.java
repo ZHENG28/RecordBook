@@ -34,4 +34,9 @@ public class TeacherViewController {
         return "teacher/views/totalClass";
     }
 
+    @GetMapping("/views/timetable")
+    public String timetable(){
+        return "teacher/views/timetable";
+    }
+
 }

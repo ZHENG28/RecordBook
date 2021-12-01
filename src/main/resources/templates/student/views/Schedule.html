@@ -40,115 +40,115 @@
 <script type="text/javascript" src="/plugin/sweetalert/sweetalert-2.1.2.min.js"></script>
 
 <script type="text/javascript">
-    $(function (){
+    $(function () {
+        let mon = [];
+        let tue = [];
+        let wed = [];
+        let thu = [];
+        let fri = [];
+        let sat = [];
+        let sun = [];
 
-        var mon=[];
-        var tue=[];
-        var wed=[];
-        var thu=[];
-        var fri=[];
-        var sat=[];
-        var sun=[];
+        let editcell = "<td><input class='w-100' style='height: 20px' type='checkbox'></td>";
 
-        let editcell="<td><input class='w-100' style='height: 20px' type='checkbox'></td>"
-
-        for (let i=1;i<14;i++){
-            let row = "<tr><td scope='col'>"+i+editcell+editcell+editcell+editcell+editcell+editcell+editcell+"</tr>"
+        for (let i = 1; i < 14; i++) {
+            let row = "<tr><td scope='col'>" + i + editcell + editcell + editcell + editcell + editcell + editcell + editcell + "</tr>"
             $('#schedule').append(row)
         }
 
         function getTableData() {
-            mon=[]
-            tue=[]
-            wed=[]
-            thu=[]
-            fri=[]
-            sat=[]
-            sun=[]
-            let data=[]
-            $.each($('#schedule td input'),function (index,dom){
+            mon = [];
+            tue = [];
+            wed = [];
+            thu = [];
+            fri = [];
+            sat = [];
+            sun = [];
+            let data = [];
+            $.each($('#schedule td input'), function (index, dom) {
                 // let text = dom.checked//获取布尔值
                 // data.push(text)
-                if (dom.checked){
+                if (dom.checked) {
                     data.push(1)
-                }else {
+                } else {
                     data.push(0)
                 }
-            })
+            });
             data.forEach(function (value, index, array) {
-                switch (index%7){
-                    case 0:{
-                        mon.push(value)
+                switch (index % 7) {
+                    case 0: {
+                        mon.push(value);
                         break;
                     }
-                    case 1:{
-                        tue.push(value)
+                    case 1: {
+                        tue.push(value);
                         break
                     }
-                    case 2:{
-                        wed.push(value)
+                    case 2: {
+                        wed.push(value);
                         break
                     }
-                    case 3:{
-                        thu.push(value)
+                    case 3: {
+                        thu.push(value);
                         break
                     }
-                    case 4:{
-                        fri.push(value)
+                    case 4: {
+                        fri.push(value);
                         break
                     }
-                    case 5:{
-                        sat.push(value)
+                    case 5: {
+                        sat.push(value);
                         break;
                     }
-                    case 6:{
-                        sun.push(value)
+                    case 6: {
+                        sun.push(value);
                         break;
                     }
-                    default:{
+                    default: {
                         break;
                     }
                 }
-            })
+            });
             let totalclass = {
-                "mon":mon,
-                "tue":tue,
-                "wed":wed,
-                "thu":thu,
-                "fri":fri,
-                "sat":sat,
-                "sun":sun
-            }
+                "mon": mon,
+                "tue": tue,
+                "wed": wed,
+                "thu": thu,
+                "fri": fri,
+                "sat": sat,
+                "sun": sun,
+            };
             // console.log(totalclass)
             return totalclass;
         }
 
-        $('#savaSchedule').click(function (){
-            let json = JSON.stringify(getTableData())
-            console.log(json)
-
+        $('#savaSchedule').click(function () {
             $.ajax({
-                url:"",
-                data:json,
-                type:"POST",
-                success:function (response) {
-                    alert(response)
+                type: "POST",
+                url: "/timetable/saveStu",
+                data: JSON.stringify({
+                    timetable: getTableData(),
+                    "student": 6,
+                }),
+                contentType: 'application/json',
+                success: function (response) {
+                    alert(response ? "保存成功" : "保存失败");
                 },
-                error:function (response) {
+                error: function (response) {
                     swal({
-                        title:"错误",
-                        icon:"error",
-                        text:response.responseJSON.message
+                        title: "错误",
+                        icon: "error",
+                        text: response.responseJSON.message
                     })
                 }
             })
-        })
+        });
 
-        $('#exportExcel').click(function (){
+        $('#exportExcel').click(function () {
             swal({
-                title:"数据导出",
-                icon:"warning",
-                text:"还没写这个功能"
+                title: "数据导出",
+                icon: "warning",
+                text: "还没写这个功能"
             })
         })
     })
