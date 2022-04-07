@@ -46,7 +46,7 @@ public class Student extends CUser{
 	@ManyToMany(cascade = {CascadeType.DETACH,CascadeType.REMOVE},fetch = FetchType.EAGER)
 	@JoinTable(
 			name="engage",
-			joinColumns = {@JoinColumn(name="student_id",referencedColumnName = "stu_id")},
+			joinColumns = {@JoinColumn(name="stu_id",referencedColumnName = "stu_id")},
 			inverseJoinColumns = {@JoinColumn(name="activity_id",referencedColumnName = "id")}
 			)
 	private Set<Activity> activities = new HashSet<Activity>();
@@ -76,7 +76,7 @@ public class Student extends CUser{
 	@ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "stu_learning",
-			joinColumns = {@JoinColumn(name="student_id",referencedColumnName = "stu_id")},
+			joinColumns = {@JoinColumn(name="stu_id",referencedColumnName = "stu_id")},
 			inverseJoinColumns = {@JoinColumn(name="records_id",referencedColumnName = "id")}
 			)
 	private Set<LearningRecords> learningRecords = new HashSet<LearningRecords>();

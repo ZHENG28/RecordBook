@@ -43,12 +43,7 @@ public class LearningRecords {
 	
 	//学生-学习记录
 	@Builder.Default
-	@ManyToMany(cascade = {CascadeType.DETACH},fetch = FetchType.EAGER)
-	@JoinTable(
-			name = "stu_learning",
-			joinColumns = {@JoinColumn(name="records_id",referencedColumnName = "id")},
-			inverseJoinColumns = {@JoinColumn(name="student_id",referencedColumnName = "stu_id")}
-			)
+	@ManyToMany(cascade = {CascadeType.DETACH},fetch = FetchType.EAGER,mappedBy = "learningRecords")
 	private Set<Student> students = new HashSet<Student>();
 	
 	//导师-学习记录

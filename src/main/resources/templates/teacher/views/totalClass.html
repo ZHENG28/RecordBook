@@ -6,9 +6,7 @@
 </head>
 <body>
 <div id="container">
-
 </div>
-
 <script>
 	$(function () {
 		$.ajax({
@@ -18,7 +16,6 @@
 			success: function (response) {
 				response.data.forEach(function (cclass) {
 					$('#container').append("<p><a class='classDetail' href='#'>" + cclass+ "</a></p>")
-
 				})
 			},
 			error: function () {
@@ -27,30 +24,33 @@
 		})
 
 		$('#container').on('click','.classDetail',function (e) {
-			e.preventDefault()
-			let className = $(this).text()
-			console.log(111111)
-			$("#container").html("")
-			$.ajax({
-				url:"/queryClassStudent",
-				data: {
-					"className": className
-				},
-				type: 'GET',
-				contentType: "application/json;charset=UTF-8",
-				success: function (response) {
-					console.log(response)
-					//stringify()用于从一个对象解析出字符串
-					let jsonData = JSON.stringify(response);
-					jQuery.each(JSON.parse(jsonData), function(i,student){
-						$('#container').append("<p><a class='studentDetail' href='#' data='"+student.id+"'>" + student.name + "</a></p>")
-					})
-				},
-				error: function () {
-					console.log('学生名单加载失败!')
-				}
-			})
+			$('#container').load('/teacher/views/classStudent',{"className":$(this).text()})
 		})
+		// $('#container').on('click','.classDetail',function (e) {
+		// 	e.preventDefault()
+		// 	let className = $(this).text()
+		// 	console.log(111111)
+		// 	$("#container").html("")
+		// 	$.ajax({
+		// 		url:"/queryClassStudent",
+		// 		data: {
+		// 			"className": className
+		// 		},
+		// 		type: 'GET',
+		// 		contentType: "application/json;charset=UTF-8",
+		// 		success: function (response) {
+		// 			console.log(response)
+		// 			//stringify()用于从一个对象解析出字符串
+		// 			let jsonData = JSON.stringify(response);
+		// 			jQuery.each(JSON.parse(jsonData), function(i,student){
+		// 				$('#container').append("<p><a class='studentDetail' href='#' data='"+student.id+"'>" + student.name + "</a></p>")
+		// 			})
+		// 		},
+		// 		error: function () {
+		// 			console.log('学生名单加载失败!')
+		// 		}
+		// 	})
+		// })
 
 	})
 </script>

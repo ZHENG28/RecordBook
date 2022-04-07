@@ -36,7 +36,8 @@ public class AdminViewController {
     }
 
     @GetMapping("/views/addTeacher")
-    public  String addTeacher(){
+    public String addTeacher(){
         return v+"addTeacher";
     }
+
 }

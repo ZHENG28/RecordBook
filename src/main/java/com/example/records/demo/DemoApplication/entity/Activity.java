@@ -47,12 +47,7 @@ public class Activity {
 	private Teacher teacher;
 	
 	@Builder.Default
-	@ManyToMany(cascade = {CascadeType.REFRESH,CascadeType.DETACH},fetch = FetchType.EAGER)
-	@JoinTable(
-			name="engage",
-			joinColumns = {@JoinColumn(name="activity_id",referencedColumnName = "id")},
-			inverseJoinColumns = {@JoinColumn(name="student_id",referencedColumnName = "stu_id")}
-			)
+	@ManyToMany(cascade = {CascadeType.REFRESH,CascadeType.DETACH},fetch = FetchType.EAGER,mappedBy = "activities")
 	private Set<Student> students = new HashSet<Student>();
 	
 }
