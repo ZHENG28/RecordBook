@@ -9,7 +9,7 @@
     <div class="card-header">
         <h1>你的立项情况</h1>
         <button type="button" class="btn btn-outline-primary" onclick="addInput()">+</button>
-        <button type="button" class="btn btn-outline-success" onclick="getValue()">提交</button>
+        <button type="button" class="btn btn-outline-success" onclick="saveProjects()">提交</button>
     </div>
     <div id="project-input">
         <div class="input-group input-group-lg mb-3">
@@ -22,19 +22,10 @@
                     <a class="dropdown-item" href="#">校级</a>
                     <a class="dropdown-item" href="#">省级</a>
                     <a class="dropdown-item" href="#">国家级</a>
+                    <input name="rank[]" type="text" class="form-control" hidden aria-label="projectRank" aria-describedby="basic-remove-btn">
                 </div>
             </div>
-            <div class="input-group-prepend selectgroups">
-                <button id="time" class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">请选择立项时间
-                </button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">2021</a>
-                    <a class="dropdown-item" href="#">2020</a>
-                    <a class="dropdown-item" href="#">2019</a>
-                    <a class="dropdown-item" href="#">2018</a>
-                </div>
-            </div>
+            <input name="time[]" type="number" class="form-control" placeholder="立项时间" aria-label="projectTime" aria-describedby="basic-remove-btn">
             <input name="project[]" type="text" class="form-control" placeholder="项目名称" aria-label="projectName" aria-describedby="basic-remove-btn">
             <div class="input-group-append">
                 <button type="button" class="removeclass btn btn-outline-danger">移除</button>
@@ -44,7 +35,12 @@
 </div>
 
 <script type="text/javascript">
+    $(function () {
+        $("input[name='time[]']").val(new Date().getFullYear());
+    });
+
     function addInput() {
+
         let input = $("        <div class=\"input-group input-group-lg mb-3\">\n" +
             "            <div class=\"input-group-prepend selectgroups\">\n" +
             "                <button id=\"rank\" class=\"btn btn-outline-secondary dropdown-toggle\" type=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\"\n" +
@@ -55,49 +51,65 @@
             "                    <a class=\"dropdown-item\" href=\"#\">校级</a>\n" +
             "                    <a class=\"dropdown-item\" href=\"#\">省级</a>\n" +
             "                    <a class=\"dropdown-item\" href=\"#\">国家级</a>\n" +
+            "                    <input name=\"rank[]\" type=\"text\" class=\"form-control\" hidden aria-label=\"projectRank\" aria-describedby=\"basic-remove-btn\">\n" +
             "                </div>\n" +
             "            </div>\n" +
-            "            <div class=\"input-group-prepend selectgroups\">\n" +
-            "                <button id=\"time\" class=\"btn btn-outline-secondary dropdown-toggle\" type=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\"\n" +
-            "                        aria-expanded=\"false\">请选择立项时间\n" +
-            "                </button>\n" +
-            "                <div class=\"dropdown-menu\">\n" +
-            "                    <a class=\"dropdown-item\" href=\"#\">2021</a>\n" +
-            "                    <a class=\"dropdown-item\" href=\"#\">2020</a>\n" +
-            "                    <a class=\"dropdown-item\" href=\"#\">2019</a>\n" +
-            "                    <a class=\"dropdown-item\" href=\"#\">2018</a>\n" +
-            "                </div>\n" +
-            "            </div>\n" +
+            "            <input name=\"time[]\" type=\"number\" class=\"form-control\" placeholder=\"立项时间\" aria-label=\"projectTime\" aria-describedby=\"basic-remove-btn\">\n" +
             "            <input name=\"project[]\" type=\"text\" class=\"form-control\" placeholder=\"项目名称\" aria-label=\"projectName\" aria-describedby=\"basic-remove-btn\">\n" +
             "            <div class=\"input-group-append\">\n" +
             "                <button type=\"button\" class=\"removeclass btn btn-outline-danger\">移除</button>\n" +
             "            </div>\n" +
             "        </div>");
         $("#project-input").append(input);
+        $("input[name='time[]']").val(new Date().getFullYear());
+        $('.dropdown-menu a').on('click', function (e) {
+            $(this).parent('div').children('input').val($(this).text());
+        });
     }
 
     function saveProjects() {
-        console.log("hello");
-    }
-
-    function getValue() {
-        let valArr = new Array;
+        let projects = [], times = [], ranks = [];
         $("input[name='project[]']").each(function (index, item) {
-            valArr[index] = $(this).val();
-            let priv = valArr.join(',');
+            projects[index] = $(this).val();
         });
-        console.log(valArr);
-    }
+        $("input[name='time[]']").each(function (index, item) {
+            times[index] = $(this).val();
+        });
+        $("input[name='rank[]']").each(function (index, item) {
+            ranks[index] = $(this).val();
+        });
 
+        let data = [];
+        for (let i = 0; i < projects.length; i++) {
+            data[i] = {
+                "name": projects[i],
+                "time": times[i],
+                "rank": ranks[i],
+            };
+        }
+
+        $.ajax({
+            url: "/project/saveStu",
+            type: "POST",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify({
+                "projects": data,
+                // 学生学号
+                "student": 2,
+            }),
+            success: function (response) {
+                console.log(response);
+            },
+        });
+    }
 
     $("body").on("click", ".removeclass", function (e) {
         $(this).parent('div').parent('div').remove();
         return false;
     });
 
-    $('.dropdown-menu a').on('click', function(e){
-        console.log($(this).text());
-        // console.log(e.currentTarget.innerText);
+    $('.dropdown-menu a').on('click', function (e) {
+        $(this).parent('div').children('input').val($(this).text());
     });
 
 </script>

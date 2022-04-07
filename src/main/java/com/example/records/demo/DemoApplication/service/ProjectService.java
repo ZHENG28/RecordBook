@@ -37,4 +37,9 @@ public class ProjectService
 
         return projects;
     }
+
+    public void saveStuProject(List<Project> projectList)
+    {
+        System.out.println(projectRepo.saveAll(projectList));
+    }
 }

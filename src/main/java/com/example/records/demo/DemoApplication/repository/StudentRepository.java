@@ -8,8 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.records.demo.DemoApplication.entity.Student;
 
-public interface StudentRepository extends JpaRepository<Student,String>{
-	Optional<Student> findByUsername(String username);
+import javax.swing.text.html.Option;
 
-	List<Student> findAllByCclass(CClass cclass);
+public interface StudentRepository extends JpaRepository<Student, String>
+{
+    Optional<Student> findByUsername(String username);
+
+    List<Student> findAllByCclass(CClass cclass);
+
+	Optional<Student> findById(Long id);
 }
