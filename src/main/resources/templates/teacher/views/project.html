@@ -16,7 +16,7 @@
         <div class="card-header">
             <h1>学生立项情况</h1>
         </div>
-        <div>
+        <div class="row">
             <div id="ages" class="dropdown col-3">
                 <button class="btn btn-secondary dropdown-toggle col-10" type="button"
                         id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
@@ -49,14 +49,6 @@
                         <th>所属学生</th>
                     </tr>
                     </thead>
-                    <tfoot>
-                    <tr>
-                        <th>年份</th>
-                        <th>等级</th>
-                        <th>名称</th>
-                        <th>所属学生</th>
-                    </tr>
-                    </tfoot>
                     <tbody id="table-content">
                     </tbody>
                 </table>
@@ -70,6 +62,9 @@
 <script type="text/javascript" src="/plugin/bootstrap-4.6.0-dist/js/bootstrap.bundle.js"></script>
 <script type="text/javascript">
     $(function () {
+
+
+
         $.ajax({
             url: "/sgrade/getAllGrade",
             type: "GET",
@@ -121,19 +116,62 @@
             type: 'POST',
             success: function (response) {
                 $('#table-content').html("");
-                response.forEach(function (pro) {
-                    $('#table-content').append(
-                        "                    <tr>\n" +
-                        "                        <td>" + pro.time + "</td>\n" +
-                        "                        <td>" + pro.ranking + "</td>\n" +
-                        "                        <td>" + pro.name + "</td>\n" +
-                        "                        <td>" + pro.student + "</td>\n" +
-                        "                    </tr>"
-                    );
-                });
-                $('#dataTable').DataTable();
+                // response.forEach(function (pro) {
+                    // $('#table-content').append(
+                    //     "                    <tr>\n" +
+                    //     "                        <td>" + pro.time + "</td>\n" +
+                    //     "                        <td>" + pro.ranking + "</td>\n" +
+                    //     "                        <td>" + pro.name + "</td>\n" +
+                    //     "                        <td>" + pro.student + "</td>\n" +
+                    //     "                    </tr>"
+                    // );
+                // });
+                drawTable(response)
             },
         });
+    }
+
+    function drawTable(array_map){
+        let table = `<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>年份</th>
+                        <th>等级</th>
+                        <th>名称</th>
+                        <th>所属学生</th>
+                    </tr>
+                    </thead>
+                    <tbody id="table-content">`
+        array_map.forEach(function (item) {
+            table += `<tr><td>${item.time}</td><td>${item.ranking}</td><td>${item.name}</td><td>${item.student}</td></tr>`
+        })
+        table +=`</tbody></table>`
+        $('.table-responsive').first().html(table)
+        let datalanguage={
+            "sProcessing": "处理中...",
+            "sLengthMenu": "显示 _MENU_ 项结果",
+            "sZeroRecords": "没有匹配结果",
+            "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+            "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+            "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+            "sInfoPostFix": "",
+            "sSearch": "搜索:",
+            "sUrl": "",
+            "sEmptyTable": "课程表为空",
+            "sLoadingRecords": "载入中...",
+            "sInfoThousands": ",",
+            "oPaginate": {
+                "sFirst": "首页",
+                "sPrevious": "上页",
+                "sNext": "下页",
+                "sLast": "末页"
+            },
+            "oAria": {
+                "sSortAscending": ": 以升序排列此列",
+                "sSortDescending": ": 以降序排列此列"
+            }
+        }
+        $('#dataTable').DataTable({language:datalanguage})
     }
 </script>
 </body>
