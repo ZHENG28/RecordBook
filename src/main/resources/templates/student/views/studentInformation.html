@@ -158,20 +158,20 @@
 
 <script type="text/javascript">
 	//获取IP
-	var IP = returnCitySN["cip"];
-	$.ajax({
-		url: "https://fxnws.com/api/test/GetIP/getip.php",
-		data:{ip:IP},
-		type:'GET',
-		dataType: "json",
-    	success: function(data) {
-    		console.log(data)
-    		// 获取IP地理位置
-	        var Info = data.result.province+data.result.district;
-	        document.getElementById("title").innerText = '嘿！欢迎您，来自'+Info+'的朋友！感谢您能抽出宝贵的时间来阅读我的在线简历！加油，不断学习，永远在路上！';
-	        typeFont();
-    	}
-	})
+	// let IP = returnCitySN["cip"];
+	// $.ajax({
+	// 	url: "https://fxnws.com/api/test/GetIP/getip.php",
+	// 	data:{ip:IP},
+	// 	type:'GET',
+	// 	dataType: "json",
+    // 	success: function(data) {
+    // 		console.log(data)
+    // 		// 获取IP地理位置
+	//         var Info = data.result.province+data.result.district;
+	//         document.getElementById("title").innerText = '嘿！欢迎您，来自'+Info+'的朋友！感谢您能抽出宝贵的时间来阅读我的在线简历！加油，不断学习，永远在路上！';
+	//         typeFont();
+    // 	}
+	// })
 
 	//html实现打字特效
 	function typeFont(){

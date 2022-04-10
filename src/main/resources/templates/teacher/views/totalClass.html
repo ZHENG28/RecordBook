@@ -4,28 +4,155 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 </head>
+<script type="text/javascript" src="https://unpkg.com/@popperjs/core@2"></script>
+<script type="text/javascript" src="/plugin/datatables/DataTables-1.11.3/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/plugin/datatables/DataTables-1.11.3/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="/plugin/bootstrap-4.6.0-dist/js/bootstrap.bundle.js"></script>
 <body>
 <div id="container">
+	<div class="card-header text-center">
+		<h2>班级学生查询</h2>
+	</div>
+	<div class="card mb-4">
+		<div class="card-body">
+			<div class="row">
+				<div id="ages" class="dropdown col-3 offset-1">
+					<button class="btn btn-secondary dropdown-toggle col-10" type="button"
+							id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false">
+						选择年级
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<a class="dropdown-item" href="#">2019</a>
+						<a class="dropdown-item" href="#">2020</a>
+						<a class="dropdown-item" href="#">2021</a>
+					</div>
+				</div>
+				<select id="classname" class="form-select col-2 offset-1" disabled
+						aria-label="Default select example">
+					<option selected>请选择班级</option>
+					<option value="计师19">计师19</option>
+					<option value="教技19">教技19</option>
+					<option value="机师19">机师19</option>
+				</select>
+				<button id="queryClassStudent" class="btn btn-info col-2 offset-1">查询</button>
+			</div>
+		</div>
+	</div>
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+				<thead>
+				<tr>
+					<th>入学年份</th>
+					<th>学生班级</th>
+					<th>学生学号</th>
+					<th>学生姓名</th>
+				</tr>
+				</thead>
+				<tbody id="table-content">
+
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
 <script>
+
 	$(function () {
+		$('#dataTable').DataTable();
 		$.ajax({
-			url: "/queryTotalClass",
-			type: "Get",
-			contentType: "application/json;charset=UTF-8",
+			url: "/sgrade/getAllGrade",
+			type: "GET",
 			success: function (response) {
-				response.data.forEach(function (cclass) {
-					$('#container').append("<p><a class='classDetail' href='#'>" + cclass+ "</a></p>")
+				$('#ages .dropdown-menu').html('');
+				response.data.forEach(function (age) {
+					$('#ages .dropdown-menu').append("<a class='dropdown-item' href='#'>" + age + "</a>")
 				})
+				// chart.hideLoading();
 			},
-			error: function () {
-				console.log("加载班级失败")
+			error: function (response) {
+				console.log("加载年级失败")
+				// chart.hideLoading();
 			},
+		});
+		$('#ages ').on('click', '.dropdown-item', function () {
+			let grade = $(this).text();
+			$.ajax({
+				url: '/sgrade/getClassByGrade',
+				data: {
+					"grade": grade
+				},
+				type: 'GET',
+				contentType: "application/json;charset=UTF-8",
+				success: function (response) {
+					$('#classname').html("<option selected>请选择班级</option>");
+					response.data.forEach(function (classname) {
+						$('#classname').append(
+								'<option value="' + classname + '">' + classname + '</option>'
+						)
+					})
+					$('#ages button').first().text(grade);
+					$('select').attr('disabled', false)
+				},
+				error: function () {
+					console.log('班级加载失败!');
+					$('select').attr('disabled', false);
+				}
+			})
+		});
+
+		$('#queryClassStudent').click(function (){
+			$("#dataTable").dataTable().fnDestroy()
+			let className = $('#classname').val()
+			console.log(className)
+			$('#dataTable').DataTable({
+				ajax:{
+					url:"/queryClassStudent",
+					data:function(d){
+						d.className = className;
+						d = JSON.stringify(d);
+						return d;
+					},
+					type:"POST",
+					contentType: "application/json;charset=UTF-8",
+					dataSrc:"response"
+				},
+				columns:[
+					{response:'sgrade'},
+					{response:'sclass'},
+					{response:'snumber'},
+					{response:'sname'},
+				]
+			})
+		});
+
+		$('#container').on('click','.studentDetail',function (e) {
+			$('#container').load('/seeStudentInformation',{"studentId":$(this).data("studentid")})
 		})
 
-		$('#container').on('click','.classDetail',function (e) {
-			$('#container').load('/teacher/views/classStudent',{"className":$(this).text()})
-		})
+
+		// $.ajax({
+		// 	url: "/queryTotalClass",
+		// 	type: "Get",
+		// 	contentType: "application/json;charset=UTF-8",
+		// 	success: function (response) {
+		// 		response.data.forEach(function (cclass) {
+		// 			$('#container').append("<p><a class='classDetail' href='#'>" + cclass+ "</a></p>")
+		// 		})
+		// 	},
+		// 	error: function () {
+		// 		console.log("加载班级失败")
+		// 	},
+		// })
+		//
+		// $('#container').on('click','.classDetail',function (e) {
+		// 	$('#container').load('/teacher/views/classStudent',{"className":$(this).text()})
+		// })
+
+
+
+
 		// $('#container').on('click','.classDetail',function (e) {
 		// 	e.preventDefault()
 		// 	let className = $(this).text()
@@ -54,5 +181,6 @@
 
 	})
 </script>
+
 </body>
 </html>

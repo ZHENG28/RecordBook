@@ -63,20 +63,32 @@ public class TeacherController
     }
 
     //查看班级学生
-    @GetMapping("/queryClassStudent")
+    @PostMapping("/queryClassStudent")
     @ResponseBody
-    public List<Student> queryClass(HttpSession session)
+    public List<Map<String, Object>> queryClass(@RequestBody Map<String, String> queryinfo)
     {
-        String className = (String) session.getAttribute("className");
+        List<Map<String, Object>> response = new ArrayList<>();
+        String className = queryinfo.get("className");
         List<Student> students = new ArrayList<>();
         Optional<CClass> cClass = classRepo.findByClassName(className);
         students.addAll(cClass.get().getStudents());
-        return students;
+        for (Student s : students){
+            Map<String, Object> res = new HashMap<>();
+            res.put("sgrade",s.getCclass().getSgrade().getGradeName());
+            res.put("sclass",s.getCclass().getClassName());
+            res.put("snumber",s.getSnumber());
+            res.put("sname",s.getName());
+            res.put("sid",s.getId());
+            response.add(res);
+        }
+        return response;
     }
 
     //查看学生电子简历
     @GetMapping("/seeStudentInformation")
-    public String seeStudentInformation(){return "student/views/studentInformation";}
+    public String getSeeStudentInformation(){return "student/views/studentInformation";}
+    @PostMapping("/seeStudentInformation")
+    public String postSeeStudentInformation(){return "student/views/studentInformation";}
 
     //查询某个班的CET信息
     @PostMapping("/queryCET46")
