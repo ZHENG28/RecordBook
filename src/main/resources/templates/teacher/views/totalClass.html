@@ -103,29 +103,77 @@
 		});
 
 		$('#queryClassStudent').click(function (){
-			$("#dataTable").dataTable().fnDestroy()
 			let className = $('#classname').val()
 			console.log(className)
-			$('#dataTable').DataTable({
-				ajax:{
-					url:"/queryClassStudent",
-					data:function(d){
-						d.className = className;
-						d = JSON.stringify(d);
-						return d;
-					},
-					type:"POST",
-					contentType: "application/json;charset=UTF-8",
-					dataSrc:"response"
+			$.ajax({
+				url:"/queryClassStudent",
+				data:JSON.stringify({"className":className}),
+				type:"POST",
+				contentType: "application/json;charset=UTF-8",
+				success: function (response) {
+					$('#table-content').html("");
+					//let studentHtml = ""
+					// response.forEach(function (student) {
+					// 	studentHtml+=
+					// 			"<tr>\n" +
+					// 			"<td>" + student.sgrade + "</td>\n" +
+					// 			"<td>" + student.sclass + "</td>\n" +
+					// 			"<td>" + student.snumber + "</td>\n" +
+					// 			"<td><a class='studentDetail' href='#' data-studentid='"+student.id+"'>" + student.sname + "</a></td>\n" +
+					// 			"</tr>"
+					// });
+					// $("#dataTable tbody").first().html(studentHtml)
+					// $("#dataTable").dataTable()
+					drawTable(response)
 				},
-				columns:[
-					{response:'sgrade'},
-					{response:'sclass'},
-					{response:'snumber'},
-					{response:'sname'},
-				]
-			})
+				error: function (response) {
+					console.log("加载班级学生 error!");
+				},
+			});
+
 		});
+		function drawTable(array_map){
+			let table = `<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>入学年份</th>
+                        <th>学生班级</th>
+                        <th>学生学号</th>
+                        <th>学生姓名</th>
+                    </tr>
+                    </thead>
+                    <tbody id="table-content">`
+			array_map.forEach(function (item) {
+				table += `<tr><td>${item.sgrade}</td><td>${item.sclass}</td><td>${item.snumber}</td><td><a class='studentDetail' href='#' data-studentid='${item.id}'>${item.sname}</a></td></tr>`
+			})
+			table +=`</tbody></table>`
+			$('.table-responsive').first().html(table)
+			let datalanguage={
+				"sProcessing": "处理中...",
+				"sLengthMenu": "显示 _MENU_ 项结果",
+				"sZeroRecords": "没有匹配结果",
+				"sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+				"sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+				"sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+				"sInfoPostFix": "",
+				"sSearch": "搜索:",
+				"sUrl": "",
+				"sEmptyTable": "课程表为空",
+				"sLoadingRecords": "载入中...",
+				"sInfoThousands": ",",
+				"oPaginate": {
+					"sFirst": "首页",
+					"sPrevious": "上页",
+					"sNext": "下页",
+					"sLast": "末页"
+				},
+				"oAria": {
+					"sSortAscending": ": 以升序排列此列",
+					"sSortDescending": ": 以降序排列此列"
+				}
+			}
+			$('#dataTable').DataTable({language:datalanguage})
+		}
 
 		$('#container').on('click','.studentDetail',function (e) {
 			$('#container').load('/seeStudentInformation',{"studentId":$(this).data("studentid")})
