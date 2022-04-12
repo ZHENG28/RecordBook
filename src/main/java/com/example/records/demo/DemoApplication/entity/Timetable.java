@@ -16,9 +16,9 @@ public class Timetable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	//星期和课程序列
-	private int weekday;
+	private String weekday;
 	//是否有课序列
-	private Boolean classing;
+	private String classing;
 
 	@OneToOne(cascade = {CascadeType.DETACH},mappedBy = "timetable")
 	private Student student;
