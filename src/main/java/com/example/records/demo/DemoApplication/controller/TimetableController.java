@@ -8,15 +8,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.annotation.RequestScope;
 import org.thymeleaf.util.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Controller
-@RequestMapping("/timetable")
-public class TimetableController
-{
+public class TimetableController {
     @Autowired
     TimetableService timetableService;
 
@@ -26,23 +25,27 @@ public class TimetableController
     {
         Map<String, ArrayList<Integer>> tt = (Map<String, ArrayList<Integer>>) info.get("timetable");
         int stuId = (int) info.get("student");
-
+        //存储每日课程情况
+        List<String> classInformation = new ArrayList<>();
+        classInformation.add(StringUtils.join(tt.get("mon"),""));
+        classInformation.add(StringUtils.join(tt.get("tue"),""));
+        classInformation.add(StringUtils.join(tt.get("wed"),""));
+        classInformation.add(StringUtils.join(tt.get("thu"),""));
+        classInformation.add(StringUtils.join(tt.get("fri"),""));
+        classInformation.add(StringUtils.join(tt.get("sat"),""));
+        classInformation.add(StringUtils.join(tt.get("sun"),""));
         Timetable timetable = new Timetable();
-        timetable.setMon(StringUtils.join(tt.get("mon"), ","));
-        timetable.setTue(StringUtils.join(tt.get("tue"), ","));
-        timetable.setWed(StringUtils.join(tt.get("wed"), ","));
-        timetable.setThu(StringUtils.join(tt.get("thu"), ","));
-        timetable.setFri(StringUtils.join(tt.get("fri"), ","));
-        timetable.setSat(StringUtils.join(tt.get("sat"), ","));
-        timetable.setSun(StringUtils.join(tt.get("sun"), ","));
+        //课程序列
+        String classing = StringUtils.join(classInformation,"");
+        timetable.setClassing(classing);
 
         return timetableService.saveStuTimetable(stuId, timetable);
     }
 
     @RequestMapping("/getIdle")
     @ResponseBody
-    public Object getIdle()
+    public Object getIdle(long id)
     {
-        return timetableService.getIdleTimetable();
+        return timetableService.getIdleTimetable(id);
     }
 }

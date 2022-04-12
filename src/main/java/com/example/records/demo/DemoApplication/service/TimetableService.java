@@ -3,19 +3,14 @@ package com.example.records.demo.DemoApplication.service;
 import com.example.records.demo.DemoApplication.entity.Student;
 import com.example.records.demo.DemoApplication.entity.Timetable;
 import com.example.records.demo.DemoApplication.repository.StudentRepository;
+import com.example.records.demo.DemoApplication.repository.TimetableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.records.demo.DemoApplication.repository.TimetableRepository;
-
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
-public class TimetableService
-{
+public class TimetableService {
     @Autowired
     TimetableRepository timetableRepo;
 
@@ -32,19 +27,19 @@ public class TimetableService
         return studentRepo.save(stu);
     }
 
-    public Object getIdleTimetable()
+    public Object getIdleTimetable(long id)
     {
-        int[][] mapData = new int[7 * 13][3];
-        List<Timetable> timetables = timetableRepo.findAll();
-        for (Timetable t : timetables) {
-            mapData = addOneDay(mapData, t.getMon(), "mon");
-            mapData = addOneDay(mapData, t.getTue(), "tue");
-            mapData = addOneDay(mapData, t.getWed(), "wed");
-            mapData = addOneDay(mapData, t.getThu(), "thu");
-            mapData = addOneDay(mapData, t.getFri(), "fri");
-            mapData = addOneDay(mapData, t.getSat(), "sat");
-            mapData = addOneDay(mapData, t.getSun(), "sun");
-        }
+        int[][] mapData = new int[7*13][3];
+        Timetable t = timetableRepo.findById(id).get();
+
+        mapData = addOneDay(mapData, t.getClassing().substring(0,13), "mon");
+        mapData = addOneDay(mapData, t.getClassing().substring(13,26), "tue");
+        mapData = addOneDay(mapData, t.getClassing().substring(26,39), "wed");
+        mapData = addOneDay(mapData, t.getClassing().substring(39,52), "thu");
+        mapData = addOneDay(mapData, t.getClassing().substring(52,65), "fri");
+        mapData = addOneDay(mapData, t.getClassing().substring(65,78), "sat");
+        mapData = addOneDay(mapData, t.getClassing().substring(78,91), "sun");
+
         return mapData;
     }
 
