@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -86,9 +87,14 @@ public class TeacherController
 
     //查看学生电子简历
     @GetMapping("/seeStudentInformation")
-    public String getSeeStudentInformation(){return "student/views/studentInformation";}
+    public String getSeeStudentInformation(){
+        return "student/views/studentInformation";}
     @PostMapping("/seeStudentInformation")
-    public String postSeeStudentInformation(){return "student/views/studentInformation";}
+    public String postSeeStudentInformation(@RequestParam("studentid") String studentid,HttpSession session){
+        System.out.println(studentid);
+        session.setAttribute("studentid",studentid);
+        return "student/views/studentInformation";
+    }
 
     //查询某个班的CET信息
     @PostMapping("/queryCET46")

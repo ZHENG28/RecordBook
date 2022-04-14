@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/timetable")
 public class TimetableController {
     @Autowired
     TimetableService timetableService;
@@ -46,6 +47,6 @@ public class TimetableController {
     @ResponseBody
     public Object getIdle(long id)
     {
-        return timetableService.getIdleTimetable(id);
+        return timetableService.getIdleTimetable(1);
     }
 }

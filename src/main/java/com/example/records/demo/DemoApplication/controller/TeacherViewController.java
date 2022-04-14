@@ -41,5 +41,8 @@ public class TeacherViewController {
     public String classStudent(@RequestParam String className, HttpSession session){
         session.setAttribute("className",className);
         return "teacher/views/classStudent";}
-
+    @GetMapping("/views/timetable")
+    public String timetable(){
+        return "teacher/views/timetable";
+    }
 }
