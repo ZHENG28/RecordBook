@@ -35,7 +35,12 @@ public class Student extends CUser{
 	private int cet;
 	private String introduction;
 	private String nickname;
-	
+	//籍贯
+	private String nativePlace;
+	private String phoneNumber;
+	private String email;
+
+
 	@Tolerate
 	public Student() {
 		
@@ -90,7 +95,7 @@ public class Student extends CUser{
 	@Builder
 	public Student(Long id,@NonNull String username,@NonNull String password,
 			@NonNull String roles,Boolean active,String snumber, String name, boolean istclass, int cet, String introduction,
-			String nickname, Set<Activity> activities, Set<Project> projects, Timetable timetable,
+			String nickname,String nativePlace,String phoneNumber,String email,Set<Activity> activities, Set<Project> projects, Timetable timetable,
 			Set<Achievement> achievements, Tutor tutor, Set<LearningRecords> learningRecords) {
 		super(id,username,password,roles,active);
 		this.snumber = snumber;
@@ -105,6 +110,9 @@ public class Student extends CUser{
 		this.achievements = achievements;
 		this.tutor = tutor;
 		this.learningRecords = learningRecords;
+		this.nativePlace = nativePlace;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
 	}
 	
 	

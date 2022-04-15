@@ -11,6 +11,7 @@
 	<!-- 移动设备优先 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<script type="text/javascript" src="/js/vue.js"></script>
+	<script src="/js/axios.min.js"></script>
 </head>
 <body>
 
@@ -23,8 +24,8 @@
 		<div class="col-lg-3 mr-auto content rounded padding text-center margin-top">
 			<div class="padding">
 				<img src="/images/img.jpg" class="logo rounded-circle margin-top">
-				<h6 class="margin-top">许元澍</h6>
-				<span>2019/计师</span>
+				<h6 class="margin-top">{{name}}</h6>
+				<span>{{sgrade}}/{{sclass}}</span>
 			</div>
 
 			<div>
@@ -33,13 +34,13 @@
 				</span>
 				<div class="row">
 					<div class="col-5">个人信息</div>
-					<div class="col-7">许元澍/男/20岁</div>
+					<div class="col-7">{{name}}/{{sex}}/{{age}}岁</div>
 
 					<div class="col-5">籍贯</div>
-					<div class="col-7">浙江杭州</div>
+					<div class="col-7">{{nativePlace}}</div>
 
 					<div class="col-5">导师</div>
-					<div class="col-7">赵毓芳</div>
+					<div class="col-7">{{tutor}}</div>
 				</div>
 			</div>
 
@@ -49,9 +50,9 @@
 				</span>
 				<div class="row">
 					<div class="col-sm-4">手机号</div>
-					<div class="col-sm-8">176-3092-1248</div>
+					<div class="col-sm-8">{{phoneNumber}}</div>
 					<div class="col-sm-4">邮箱</div>
-					<div class="col-sm-8">1245634367@qq.com</div>
+					<div class="col-sm-8">{{email}}</div>
 					<div class="col-sm-5">个人课表</div>
 					<div class="col-sm-7">
 						<a href="">点我直达</a>
@@ -69,10 +70,10 @@
 				</span>
 				<div class="row">
 					<div class="col-sm-5">四级成绩</div>
-					<div class="col-7">425</div>
+					<div class="col-7">{{cet4}}</div>
 
 					<div class="col-sm-5">六级成绩</div>
-					<div class="col-7">425</div>
+					<div class="col-7">{{cet6}}</div>
 
 					<div class="col-sm-5">雅思</div>
 					<div class="col-7">暂无</div>
@@ -106,8 +107,7 @@
 					<span class="iconfont icon-daima"></span>自我介绍
 				</span>
 				<div class="row">
-					<div class="c col-sm-5">我叫许元澍，我很可爱</div>
-					<div class="c col-sm-7 text-right">2021-04-18</div>
+					<div class="c col-sm-5">{{introduction}}</div>
 				</div>
 			</div>
 			
@@ -115,11 +115,9 @@
 				<span class="text-left border-bottom d-block margin-top nav-title">
 					<span class="iconfont icon-daima"></span>立项情况
 				</span>
-				<div class="row">
-					<div class="c col-sm-5">运河杯——校级</div>
-					<div class="c col-sm-7 text-right">2021-04-18</div>
-					<div class="c col-sm-5">运河杯——校级</div>
-					<div class="c col-sm-7 text-right">2021-04-18</div>
+				<div class="row" v-for="(project,index) in projects" :key="project.id">
+						<div class="c col-sm-5">{{project.name}}-----{{project.ranking}}</div>
+						<div class="c col-sm-7 text-right">{{project.time}}</div>
 				</div>
 			</div>
 
@@ -127,11 +125,10 @@
 				<span class="text-left border-bottom d-block margin-top nav-title">
 					<span class="iconfont icon-daima"></span>获奖情况
 				</span>
-				<div class="row">
-					<div class="c col-sm-5">很大的奖</div>
-					<div class="c col-sm-7 text-right">2021-04-18</div>
-					<div class="c col-sm-5">很大的奖</div>
-					<div class="c col-sm-7 text-right">2021-04-18</div>
+				<div class="row" v-for="(achievement,index) in achievements" :key="achievement.id">
+					<div class="c col-sm-5">{{achievement.name}}-----{{achievement.ranking}}</div>
+					<div class="c col-sm-7 text-right">{{achievement.semester}}</div>
+					<div class="c col-sm-5">{{achievement.introduction}}</div>
 				</div>
 			</div>
 
@@ -158,8 +155,8 @@
 <script type="text/javascript">
 	//html实现打字特效
 	function typeFont(){
-		var index = 0;
-		var word = document.getElementById('title').innerHTML
+		let index = 0;
+		let word = document.getElementById('title').innerHTML
 		function font(){
 			document.getElementById('title-marquee').innerText = word.substring(0,index++);
 		}
@@ -171,8 +168,48 @@
 	new Vue({
 		el:'#root',
 		data:{
+				"name":"许元澍",
+				"sex":"男",
+				"age":"20",
+				"sgrade":"2019级",
+				"sclass":"计师19",
+				"nativePlace":"浙江杭州",
+				"tutor":"赵毓芳",
+				"phoneNumber":"176-3092-1248",
+				"email":"1245634367@qq.com",
+				"cet4":"425",
+				"cet6":"425",
 
-
+				"introduction":"我叫许元澍，我很可爱",
+				"projects":[
+					{"id":"1","name":"运河杯","ranking":"校级","time":"2021-04-18"},
+					{"id":"2","name":"大创","ranking":"国家级","time":"2021-05-18"},
+				],
+				"achievements":[
+					{"id":"1","name":"大物竞赛省一","ranking":"省级","introduction":"这是一个很大的奖","semester":"2020-01"},
+					{"id":"2","name":"高数竞赛省一","ranking":"省级","introduction":"这是另一个很大的奖","semester":"2020-02"},
+				]
+			},
+			methods:{
+				getInfo:function(){
+					let that = this;
+					axios.post('/')
+						.then(function(response) {
+							let result = response.data;
+							console.log(result);
+							if (result.status == 200) {
+								// that.realname = result.data.realname;
+							} else {
+								console.log("调取学生信息失败");
+							}
+						})
+						.catch(function(error) {
+							console.log(error);
+						});
+				},
+			},
+			mounted(){
+				this.getInfo()
 			}
 	})
 

@@ -91,7 +91,6 @@ public class TeacherController
         return "student/views/studentInformation";}
     @PostMapping("/seeStudentInformation")
     public String postSeeStudentInformation(@RequestParam("studentid") String studentid,HttpSession session){
-        System.out.println(studentid);
         session.setAttribute("studentid",studentid);
         return "student/views/studentInformation";
     }
