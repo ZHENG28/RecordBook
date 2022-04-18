@@ -9,7 +9,7 @@
 <script type="text/javascript" src="/plugin/datatables/DataTables-1.11.3/js/dataTables.bootstrap4.min.js"></script>
 <script type="text/javascript" src="/plugin/bootstrap-4.6.0-dist/js/bootstrap.bundle.js"></script>
 <body>
-<div id="container">
+<div>
 	<div class="card-header text-center">
 		<h2>班级学生查询</h2>
 	</div>
@@ -178,7 +178,7 @@
 
 		$('#container').on('click','.studentDetail',function (e) {
 			console.log($(this).data("studentid"))
-			$('#container').load('/seeStudentInformation',{"studentid":$(this).data("studentid")})
+			$('#container').empty().load('/seeStudentInformation',{"studentid":$(this).data("studentid")})
 		})
 
 	})

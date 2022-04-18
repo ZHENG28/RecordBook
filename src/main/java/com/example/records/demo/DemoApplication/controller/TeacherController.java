@@ -1,8 +1,11 @@
 package com.example.records.demo.DemoApplication.controller;
 
+import com.example.records.demo.DemoApplication.entity.Achievement;
 import com.example.records.demo.DemoApplication.entity.CClass;
+import com.example.records.demo.DemoApplication.entity.Project;
 import com.example.records.demo.DemoApplication.entity.Student;
 import com.example.records.demo.DemoApplication.repository.CClassRepository;
+import com.example.records.demo.DemoApplication.repository.StudentRepository;
 import com.example.records.demo.DemoApplication.service.StudentService;
 import com.example.records.demo.DemoApplication.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,9 @@ public class TeacherController
 
     @Autowired
     TeacherService teacherService;
+
+    @Autowired
+    StudentService studentService;
 
     //dark
     //teacher主页
@@ -93,6 +99,61 @@ public class TeacherController
     public String postSeeStudentInformation(@RequestParam("studentid") String studentid,HttpSession session){
         session.setAttribute("studentid",studentid);
         return "student/views/studentInformation";
+    }
+    //获取学生简历信息
+    @PostMapping("/queryStudentInfo")
+    @ResponseBody
+    public Map<String,Object> QueryStudentInfo(HttpSession session){
+        Calendar calendar = Calendar.getInstance();
+        Long studentid = Long.parseLong(session.getAttribute("studentid").toString());
+        Student student = studentService.findStuById(studentid);
+        Map<String,Object> response = new HashMap<>();
+        response.put("name",student.getName());
+        response.put("sex",student.getSex());
+        response.put("age",String.valueOf(calendar.get(Calendar.YEAR)-Integer.valueOf(student.getBornyear())));
+        response.put("sgrade",student.getCclass().getSgrade().getGradeName());
+        response.put("sclass",student.getCclass().getClassName());
+        response.put("nativePlace",student.getNativePlace());
+        response.put("tutor",student.getTutor().getName());
+        response.put("phoneNumber",student.getPhoneNumber());
+        response.put("email",student.getEmail());
+        if(student.getCet() == 4){
+            response.put("cet4","通过");
+            response.put("cet6","未通过");
+        }else if(student.getCet() == 6){
+            response.put("cet4","通过");
+            response.put("cet6","通过");
+        }else{
+            response.put("cet4","未通过");
+            response.put("cet6","未通过");
+        }
+        response.put("introduction",student.getIntroduction());
+        //存储project信息
+        List<Map<String,String>> projects = new ArrayList<>();
+        Set<Project> allProjects = student.getProjects();
+        for(Project project : allProjects){
+            Map<String,String> temp = new HashMap<>();
+            temp.put("id",project.getId().toString());
+            temp.put("name",project.getName());
+            temp.put("ranking",project.getRanking());
+            temp.put("time",project.getTime());
+            projects.add(temp);
+        }
+        //存储achivement信息
+        List<Map<String,String>> achievements = new ArrayList<>();
+        Set<Achievement> allachievements = student.getAchievements();
+        for(Achievement achievement : allachievements){
+            Map<String,String> temp = new HashMap<>();
+            temp.put("id",achievement.getId().toString());
+            temp.put("name",achievement.getName());
+            temp.put("ranking",achievement.getRanking());
+            temp.put("introduction",achievement.getIntroduction());
+            temp.put("semester",achievement.getSemesters());
+            achievements.add(temp);
+        }
+        response.put("projects",projects);
+        response.put("achievements",achievements);
+        return response;
     }
 
     //查询某个班的CET信息

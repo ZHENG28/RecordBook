@@ -190,27 +190,38 @@
 					{"id":"2","name":"高数竞赛省一","ranking":"省级","introduction":"这是另一个很大的奖","semester":"2020-02"},
 				]
 			},
-			methods:{
-				getInfo:function(){
-					let that = this;
-					axios.post('/')
-						.then(function(response) {
-							let result = response.data;
-							console.log(result);
-							if (result.status == 200) {
-								// that.realname = result.data.realname;
-							} else {
-								console.log("调取学生信息失败");
-							}
-						})
-						.catch(function(error) {
-							console.log(error);
-						});
-				},
+		mounted(){
+			this.getInfo()
+		},
+		methods:{
+			getInfo:function(){
+				let that = this;
+				axios.post('/queryStudentInfo')
+					.then(function(response) {
+						let result = response;
+						if (result.status == 200) {
+							that.name = result.data.name;
+							that.sex = result.data.sex;
+							that.age = result.data.age;
+							that.sgrade = result.data.age;
+							that.sclass = result.data.sclass;
+							that.nativePlace = result.data.nativePlace;
+							that.tutor = result.data.tutor;
+							that.phoneNumber = result.data.phoneNumber;
+							that.email = result.data.email;
+							that.cet4 = result.data.cet4;
+							that.cet6 = result.data.cet6;
+							that.introduction = result.data.introduction;
+							that.projects = result.data.projects;
+							that.achievements = result.data.achievements;
+						}
+					})
+					.catch(function(error) {
+						console.log("学生信息查询失败");
+					});
 			},
-			mounted(){
-				this.getInfo()
-			}
+		},
+
 	})
 
 </script>
