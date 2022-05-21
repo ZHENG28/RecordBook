@@ -22,22 +22,21 @@ public class TimetableController {
 
     @PostMapping("/saveStu")
     @ResponseBody
-    public Object saveStuTimetable(@RequestBody Map<String, Object> info)
-    {
+    public Object saveStuTimetable(@RequestBody Map<String, Object> info) {
         Map<String, ArrayList<Integer>> tt = (Map<String, ArrayList<Integer>>) info.get("timetable");
         int stuId = (int) info.get("student");
         //存储每日课程情况
         List<String> classInformation = new ArrayList<>();
-        classInformation.add(StringUtils.join(tt.get("mon"),""));
-        classInformation.add(StringUtils.join(tt.get("tue"),""));
-        classInformation.add(StringUtils.join(tt.get("wed"),""));
-        classInformation.add(StringUtils.join(tt.get("thu"),""));
-        classInformation.add(StringUtils.join(tt.get("fri"),""));
-        classInformation.add(StringUtils.join(tt.get("sat"),""));
-        classInformation.add(StringUtils.join(tt.get("sun"),""));
+        classInformation.add(StringUtils.join(tt.get("mon"), ""));
+        classInformation.add(StringUtils.join(tt.get("tue"), ""));
+        classInformation.add(StringUtils.join(tt.get("wed"), ""));
+        classInformation.add(StringUtils.join(tt.get("thu"), ""));
+        classInformation.add(StringUtils.join(tt.get("fri"), ""));
+        classInformation.add(StringUtils.join(tt.get("sat"), ""));
+        classInformation.add(StringUtils.join(tt.get("sun"), ""));
         Timetable timetable = new Timetable();
         //课程序列
-        String classing = StringUtils.join(classInformation,"");
+        String classing = StringUtils.join(classInformation, "");
         timetable.setClassing(classing);
 
         return timetableService.saveStuTimetable(stuId, timetable);
@@ -45,8 +44,7 @@ public class TimetableController {
 
     @RequestMapping("/getIdle")
     @ResponseBody
-    public Object getIdle(long id)
-    {
+    public Object getIdle() {
         return timetableService.getIdleTimetable(1);
     }
 }

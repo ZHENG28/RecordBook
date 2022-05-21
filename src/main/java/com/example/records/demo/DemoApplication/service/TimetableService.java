@@ -7,6 +7,7 @@ import com.example.records.demo.DemoApplication.repository.TimetableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -17,8 +18,7 @@ public class TimetableService {
     @Autowired
     StudentRepository studentRepo;
 
-    public Object saveStuTimetable(int id, Timetable timetable)
-    {
+    public Object saveStuTimetable(int id, Timetable timetable) {
         Student stu = studentRepo.findById((long) id).orElseThrow();
         if (stu.getTimetable() != null) {
             timetable.setId(stu.getTimetable().getId());
@@ -27,55 +27,62 @@ public class TimetableService {
         return studentRepo.save(stu);
     }
 
-    public Object getIdleTimetable(long id)
-    {
-        int[][] mapData = new int[7*13][3];
-        Timetable t = timetableRepo.findById(id).get();
+    public Object getIdleTimetable(long id) {
+        final int CLASS_NUMBER = 13;
+        int[][] mapData = new int[7 * 13][3];
+        //        Timetable t = timetableRepo.findById(id).get();
+        List<Timetable> timetableList = timetableRepo.findAll();
 
-        mapData = addOneDay(mapData, t.getClassing().substring(0,13), "mon");
-        mapData = addOneDay(mapData, t.getClassing().substring(13,26), "tue");
-        mapData = addOneDay(mapData, t.getClassing().substring(26,39), "wed");
-        mapData = addOneDay(mapData, t.getClassing().substring(39,52), "thu");
-        mapData = addOneDay(mapData, t.getClassing().substring(52,65), "fri");
-        mapData = addOneDay(mapData, t.getClassing().substring(65,78), "sat");
-        mapData = addOneDay(mapData, t.getClassing().substring(78,91), "sun");
+        //        String[] days = new String[]{"mon", "tue", "wed", "thu", "fri", "sat", "sun"};
+        //        mapData = addOneDay(mapData, t.getClassing().substring(0, 13), "mon");
+        //        mapData = addOneDay(mapData, t.getClassing().substring(13, 26), "tue");
+        //        mapData = addOneDay(mapData, t.getClassing().substring(26, 39), "wed");
+        //        mapData = addOneDay(mapData, t.getClassing().substring(39, 52), "thu");
+        //        mapData = addOneDay(mapData, t.getClassing().substring(52, 65), "fri");
+        //        mapData = addOneDay(mapData, t.getClassing().substring(65, 78), "sat");
+        //        mapData = addOneDay(mapData, t.getClassing().substring(78, 91), "sun");
+
+        for (Timetable timetable : timetableList) {
+            for (int i = 0; i < 7; i++) {
+                mapData = addOneDay(mapData, timetable.getClassing().substring(CLASS_NUMBER * i, CLASS_NUMBER * (i + 1)), i);
+            }
+        }
 
         return mapData;
     }
 
-    public int[][] addOneDay(int[][] arr, String str, String day)
-    {
-        int d = 0;
-        switch (day) {
-            case "mon":
-                d = 0;
-                break;
-            case "tue":
-                d = 1;
-                break;
-            case "wed":
-                d = 2;
-                break;
-            case "thu":
-                d = 3;
-                break;
-            case "fri":
-                d = 4;
-                break;
-            case "sat":
-                d = 5;
-                break;
-            case "sun":
-                d = 6;
-                break;
-        }
-        String[] data = str.split(",");
+    public int[][] addOneDay(int[][] arr, String str, Integer day) {
+        //        int d = 0;
+        //        switch (day) {
+        //            case "mon":
+        //                d = 0;
+        //                break;
+        //            case "tue":
+        //                d = 1;
+        //                break;
+        //            case "wed":
+        //                d = 2;
+        //                break;
+        //            case "thu":
+        //                d = 3;
+        //                break;
+        //            case "fri":
+        //                d = 4;
+        //                break;
+        //            case "sat":
+        //                d = 5;
+        //                break;
+        //            case "sun":
+        //                d = 6;
+        //                break;
+        //        }
+        //        String[] data = str.split(",");
 
-        for (int c = 0; c < data.length; c++) {
-            int index = d * 13 + c;
-            arr[index][0] = d;
+        for (int c = 0; c < str.length(); c++) {
+            int index = day * 13 + c;
+            arr[index][0] = day;
             arr[index][1] = c;
-            arr[index][2] += 1 - Integer.parseInt(data[c]);
+            arr[index][2] += 1 - Integer.parseInt(str.substring(c, c + 1));
         }
 
         return arr;
