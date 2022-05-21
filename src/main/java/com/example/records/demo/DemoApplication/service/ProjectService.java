@@ -28,13 +28,11 @@ public class ProjectService
     public List<Project> queryStuProject(String classname)
     {
         List<Project> projects = new ArrayList<>();
-
         CClass c = classRepo.findByClassName(classname).orElseThrow();
         List<Student> stuList = studentRepo.findAllByCclass(c);
         for (Student stu : stuList) {
             projects.addAll(projectRepo.findByStudent(stu));
         }
-
         return projects;
     }
 
