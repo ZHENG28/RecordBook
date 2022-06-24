@@ -34,14 +34,14 @@ public class TeacherController
     @GetMapping("/teacherIndex_dark")
     public String teacherIndex_dark()
     {
-        return "/teacher/teacherIndex";
+        return "teacher/teacherIndex";
     }
 
     //进入亮模式
     @GetMapping("/toLight")
     public String toLight()
     {
-        return "/teacher/layout-sidenav-light";
+        return "teacher/layout-sidenav-light";
     }
 
 
