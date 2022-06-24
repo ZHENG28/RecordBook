@@ -29,29 +29,29 @@ public class AppController {
 	public String regist(@RequestParam(name="username") String username,@RequestParam(name="password") String password) {
 		System.out.println(username);
 		if(!studentRepo.findByUsername(username).equals(Optional.empty())) {
-			return "redirect:/login.html";
+			return "redirect:login.html";
 		}else {
 			Student student = Student.builder().username(username).password(new BCryptPasswordEncoder().encode(password))
 					.active(true).roles("ROLE_STUDENT").build();
 			studentRepo.save(student);
-			return "redirect:/login.html";
+			return "redirect:login.html";
 		}
 	}
 	
 	@GetMapping("/")
 	public String login() {
-		return "redirect:/login.html";
+		return "redirect:login.html";
 	}
 	
 	//双端首页路由
 	@GetMapping("/studentIndex")
 	public String studentIndex() {
-		return "/student/studentIndex";
+		return "student/studentIndex";
 	}
 	
 	@GetMapping("/teacherIndex")
 	public String teacherIndex() {
-		return "/teacher/teacherIndex";
+		return "teacher/teacherIndex";
 	}
 	
 	
