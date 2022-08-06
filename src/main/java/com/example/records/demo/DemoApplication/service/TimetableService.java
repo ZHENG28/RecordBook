@@ -18,13 +18,18 @@ public class TimetableService {
     @Autowired
     StudentRepository studentRepo;
 
-    public Object saveStuTimetable(int id, Timetable timetable) {
-        Student stu = studentRepo.findById((long) id).orElseThrow();
+    public Object saveStuTimetable(String username, Timetable timetable) {
+        Student stu = studentRepo.findByUsername(username).orElseThrow();
         if (stu.getTimetable() != null) {
             timetable.setId(stu.getTimetable().getId());
         }
         stu.setTimetable(timetable);
         return studentRepo.save(stu);
+    }
+
+    public Object getStuTableData(String username) {
+        Student stu = studentRepo.findByUsername(username).orElseThrow();
+        return stu.getTimetable().getClassing();
     }
 
     public Object getIdleTimetable(long id) {

@@ -1,5 +1,6 @@
 package com.example.records.demo.DemoApplication.controller;
 
+import com.example.records.demo.DemoApplication.entity.LoginedUser;
 import com.example.records.demo.DemoApplication.entity.Timetable;
 import com.example.records.demo.DemoApplication.service.TimetableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,6 @@ public class TimetableController {
     @ResponseBody
     public Object saveStuTimetable(@RequestBody Map<String, Object> info) {
         Map<String, ArrayList<Integer>> tt = (Map<String, ArrayList<Integer>>) info.get("timetable");
-        int stuId = (int) info.get("student");
         //存储每日课程情况
         List<String> classInformation = new ArrayList<>();
         classInformation.add(StringUtils.join(tt.get("mon"), ""));
@@ -39,7 +39,13 @@ public class TimetableController {
         String classing = StringUtils.join(classInformation, "");
         timetable.setClassing(classing);
 
-        return timetableService.saveStuTimetable(stuId, timetable);
+        return timetableService.saveStuTimetable((String) LoginedUser.INFO.get("username"), timetable);
+    }
+
+    @PostMapping("/getTableData")
+    @ResponseBody
+    public Object getStuTableData(@RequestBody Map<String, Object> info) {
+        return timetableService.getStuTableData((String) LoginedUser.INFO.get("username"));
     }
 
     @RequestMapping("/getIdle")

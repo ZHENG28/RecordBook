@@ -122,13 +122,59 @@
             return totalclass;
         }
 
+        function str2TimeTable(str){
+            let table = str.match(/\d{13}/g);
+            // 转换timetable
+            table.forEach((value, index) => {
+                table[index] = Array.from(value);
+            });
+            let change = [];
+            for (let i = 0; i < 13; i++) {
+                change[i] = []
+            }
+            for (let i = 0; i < table.length; i++) {
+                for (let j = 0; j < table[i].length; j++) {
+                    change[j][i] = table[i][j];
+                }
+            }
+            return change;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/timetable/getTableData",
+            data: JSON.stringify({
+                // 使用后端中的全局变量LoginedUser.username
+                // "student": 6,
+            }),
+            contentType: 'application/json',
+            success: function (response) {
+                let table = str2TimeTable(response);
+                let data = table.reduce(function (pre, cur) {
+                    return pre.concat(cur);
+                });
+                // 按照timetable勾选课表
+                $.each($('#schedule td input'), function (index, dom) {
+                    dom.checked = parseInt(data[index]);
+                });
+            },
+            error: function (response) {
+                swal({
+                    title: "错误",
+                    icon: "error",
+                    text: response.responseJSON.message
+                })
+            }
+        })
+
         $('#savaSchedule').click(function () {
             $.ajax({
                 type: "POST",
                 url: "/timetable/saveStu",
                 data: JSON.stringify({
                     timetable: getTableData(),
-                    "student": 6,
+                    // 使用后端中的全局变量LoginedUser.username
+                    // "student": 6,
                 }),
                 contentType: 'application/json',
                 success: function (response) {
