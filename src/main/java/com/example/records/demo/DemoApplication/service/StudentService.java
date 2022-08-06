@@ -16,9 +16,8 @@ public class StudentService
         return studentRepository.findById(stuId).orElseThrow();
     }
 
-    public Long findStuIdByName(String username)
+    public Student findStuByName(String username)
     {
-        Student student = studentRepository.findByUsername(username).orElseThrow();
-        return student.getId();
+        return studentRepository.findByUsername(username).orElseThrow();
     }
 }

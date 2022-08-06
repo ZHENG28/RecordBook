@@ -68,10 +68,21 @@
     }
 
     function saveProjects() {
+        let flag = true;
         let projects = [], times = [], ranks = [];
         $("input[name='project[]']").each(function (index, item) {
-            projects[index] = $(this).val();
+            let name = $(this).val();
+            if (name) {
+                projects[index] = name;
+            } else {
+                alert("请填写项目名称");
+                flag = false;
+                return flag;
+            }
         });
+        if (!flag) {
+            return;
+        }
         $("input[name='time[]']").each(function (index, item) {
             times[index] = $(this).val();
         });
@@ -94,12 +105,19 @@
             contentType: "application/json;charset=UTF-8",
             data: JSON.stringify({
                 "projects": data,
-                // 学生学号
-                "student": 2,
+                // 学生学号（处理方式同Schedule中的一样）
+                // "student": 2,
             }),
             success: function (response) {
-                console.log(response);
+                alert(response ? "保存成功" : "保存失败");
             },
+            error: function (response) {
+                swal({
+                    title: "错误",
+                    icon: "error",
+                    text: response.responseJSON.message
+                })
+            }
         });
     }
 

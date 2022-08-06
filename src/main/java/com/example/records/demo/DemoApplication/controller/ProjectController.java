@@ -1,5 +1,6 @@
 package com.example.records.demo.DemoApplication.controller;
 
+import com.example.records.demo.DemoApplication.entity.LoginedUser;
 import com.example.records.demo.DemoApplication.entity.Project;
 import com.example.records.demo.DemoApplication.entity.Student;
 import com.example.records.demo.DemoApplication.service.ProjectService;
@@ -50,7 +51,7 @@ public class ProjectController
     public Object saveStuProject(@RequestBody Map<String, Object> info)
     {
         List<Map<String, Object>> projects = (List<Map<String, Object>>) info.get("projects");
-        Student stu = studentService.findStuById(Long.valueOf((Integer) info.get("student")));
+        Student stu = studentService.findStuByName((String) LoginedUser.INFO.get("username"));
 
         List<Project> projectList = new ArrayList<>();
         for (Map<String, Object> map : projects) {
@@ -61,7 +62,6 @@ public class ProjectController
             p.setStudent(stu);
             projectList.add(p);
         }
-        projectService.saveStuProject(projectList);
-        return null;
+        return projectService.saveStuProject(projectList);
     }
 }

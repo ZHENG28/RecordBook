@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProjectService
-{
+public class ProjectService {
     @Autowired
     ProjectRepository projectRepo;
 
@@ -25,8 +24,7 @@ public class ProjectService
     @Autowired
     StudentRepository studentRepo;
 
-    public List<Project> queryStuProject(String classname)
-    {
+    public List<Project> queryStuProject(String classname) {
         List<Project> projects = new ArrayList<>();
         CClass c = classRepo.findByClassName(classname).orElseThrow();
         List<Student> stuList = studentRepo.findAllByCclass(c);
@@ -36,8 +34,7 @@ public class ProjectService
         return projects;
     }
 
-    public void saveStuProject(List<Project> projectList)
-    {
-        System.out.println(projectRepo.saveAll(projectList));
+    public Object saveStuProject(List<Project> projectList) {
+        return projectRepo.saveAll(projectList);
     }
 }
