@@ -1,17 +1,12 @@
 package com.example.records.demo.DemoApplication.controller;
 
-import com.example.records.demo.DemoApplication.entity.CClass;
-import com.example.records.demo.DemoApplication.repository.CClassRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 @RequestMapping("/teacher")
@@ -44,5 +39,10 @@ public class TeacherViewController {
     @GetMapping("/views/timetable")
     public String timetable(){
         return "teacher/views/timetable";
+    }
+
+    @GetMapping("/views/createactivity")
+    public String create_activity(){
+        return "teacher/views/create-activity";
     }
 }
