@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+<script type="text/javascript" src="/js/vue.js"></script>
+<script src="/js/axios.min.js"></script>
+    <div class="container" id="root">
+        <div>
+            <span class="text-left border-bottom d-block margin-top nav-title">
+                <h4><span class="badge badge-primary">基本信息</span></h4>
+            </span>
+            <div>
+                姓名：{{name}}
+            </div>
+            <div>
+                学号：{{snumber}}
+            </div>
+            <div>
+                性别：{{sex}}
+            </div>
+            <div>
+                班级：{{sclass}}
+            </div>
+            <div>
+                籍贯：{{nativePlace}}
+            </div>
+            <div>
+                联系电话：<input type="text" v-model="phoneNumber" class="edit">
+            </div>
+            <div>
+                电子邮件：<input type="email" v-model="email" class="edit">
+            </div>
+            <div>
+                自我介绍：<input type="text" v-model="introduction" class="edit">
+            </div>
+        </div>
+        <div>
+            <span class="text-left border-bottom d-block margin-top nav-title">
+                <h4><span class="badge badge-info">学业情况</span></h4>
+            </span>
+            <div>
+                入学年份：{{sgrade}}
+            </div>
+            <div>
+                导师：{{tutor}}
+            </div>
+            <div>
+                四六级通过情况：
+            </div>
+        </div>
+        <div>
+            <span class="text-left border-bottom d-block margin-top nav-title">
+                <h4><span class="badge badge-secondary">获奖情况</span></h4>
+            </span>
+            <div class="row" v-for="(achievement,index) in achievements" :key="achievement.id">
+                <div class="c col-sm-5">{{achievement.name}}-----{{achievement.ranking}}</div>
+                <div class="c col-sm-7 text-right">{{achievement.semester}}</div>
+                <div class="c col-sm-5">{{achievement.introduction}}</div>
+            </div>
+        </div>
+        <div>
+            <span class="text-left border-bottom d-block margin-top nav-title">
+                <h4><span class="badge badge-dark">任职情况</span></h4>
+            </span>
+            <div class="row">
+                <div class="c col-sm-5">文体</div>
+                <div class="c col-sm-7 text-right">2021-04-18</div>
+                <div class="c col-sm-5">文体</div>
+                <div class="c col-sm-7 text-right">2021-04-18</div>
+            </div>
+        </div>
+    <br>
+        <div class="bx-pull-right col-sm-3">
+            <button type="button" id="saveStudentInformation" class="btn btn-primary">保存修改</button>
+            <button type="button" id="queryStudentInfo" class="btn btn-success">查看简历</button>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+    Vue.config.productionTip = false//阻止 vue 在启动时生成生产提示。
+    new Vue({
+        el:'#root',
+        data:{
+            "name":"许元澍",
+            "snumber":"201906120101",
+            "sex":"男",
+            "age":"20",
+            "sgrade":"2019级",
+            "sclass":"计师19",
+            "nativePlace":"浙江杭州",
+            "tutor":"赵毓芳",
+            "phoneNumber":"176-3092-1248",
+            "email":"1245634367@qq.com",
+            "cet4":"425",
+            "cet6":"425",
+
+            "introduction":"我叫许元澍，我很可爱",
+            "projects":[
+                {"id":"1","name":"运河杯","ranking":"校级","time":"2021-04-18"},
+                {"id":"2","name":"大创","ranking":"国家级","time":"2021-05-18"},
+            ],
+            "achievements":[
+                {"id":"1","name":"大物竞赛省一","ranking":"省级","introduction":"这是一个很大的奖","semester":"2020-01"},
+                {"id":"2","name":"高数竞赛省一","ranking":"省级","introduction":"这是另一个很大的奖","semester":"2020-02"},
+            ]
+        },
+        mounted(){
+            this.getInfo()
+        },
+        methods:{
+            getInfo:function(){
+                let that = this;
+                axios.post('/queryStudentInfo')
+                    .then(function(response) {
+                        let result = response;
+                        if (result.status == 200) {
+                            that.name = result.data.name;
+                            that.sex = result.data.sex;
+                            that.age = result.data.age;
+                            that.sgrade = result.data.age;
+                            that.sclass = result.data.sclass;
+                            that.nativePlace = result.data.nativePlace;
+                            that.tutor = result.data.tutor;
+                            that.phoneNumber = result.data.phoneNumber;
+                            that.email = result.data.email;
+                            that.cet4 = result.data.cet4;
+                            that.cet6 = result.data.cet6;
+                            that.introduction = result.data.introduction;
+                            that.projects = result.data.projects;
+                            that.achievements = result.data.achievements;
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log("学生信息查询失败");
+                    });
+            },
+        },
+    })
+</script>
+<script>
+    $('#queryStudentInfo').click(function(){
+        $('#viewcontainer').empty().load("/seeStudentInformation")
+    })
+</script>
+</html>
