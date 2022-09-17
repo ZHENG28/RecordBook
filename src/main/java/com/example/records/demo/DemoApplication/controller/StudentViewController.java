@@ -14,7 +14,11 @@ public class StudentViewController {
     }
 
     @GetMapping("/project")
-    public String project(){
+    public String Project(){
         return "student/views/project";
     }
+
+    @GetMapping("/editInformation")
+    public String EditInformation(){return "student/views/editStudentInformation";}
+    
 }

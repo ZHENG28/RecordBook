@@ -18,7 +18,9 @@ import javax.persistence.Table;
 import lombok.*;
 import lombok.experimental.Tolerate;
 
+//使用lombok的builder构造实体对象
 @Builder
+//实体标识
 @Entity
 @Data
 @EqualsAndHashCode(callSuper=true)
